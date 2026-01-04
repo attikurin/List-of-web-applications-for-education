@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教育現場向けWebアプリ一覧 | 小中学校の先生・ICT支援員のためのツール集</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="wave-top"></div>
+    
+    <header class="header">
+        <div class="container">
+            <h1 class="header-title">
+                <i class="fas fa-graduation-cap"></i>
+                教育現場向けWebアプリ一覧
+            </h1>
+            <p class="header-subtitle">小中学校の先生・ICT支援員のための便利ツール集</p>
+            <div class="header-badges">
+                <span class="badge badge-safe"><i class="fas fa-shield-alt"></i> ブラウザ完結で安全</span>
+                <span class="badge badge-free"><i class="fas fa-gift"></i> インストール不要</span>
+                <span class="badge badge-local"><i class="fas fa-lock"></i> データは端末に保存</span>
+                <span class="badge badge-device"><i class="fas fa-laptop"></i> どの端末でもOK</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="apps-grid" id="appsGrid">
+                <!-- アプリカード1: 全自動・顔モザイクメーカー -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app1.png" alt="全自動・顔モザイクメーカー">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-user-secret category-icon icon-privacy"></i>
+                            全自動・顔モザイクメーカー
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-privacy">プライバシー保護</span>
+                            <span class="tag tag-ai">AI検出</span>
+                            <span class="tag tag-video">動画対応</span>
+                        </div>
+                        <p class="app-description">
+                            プライバシー保護に特化した顔モザイク加工アプリ。face-api.js（SSD MobileNet V1）で超高精度検出、群衆・横顔・小さな顔も逃さずキャッチ。手動補正モードでナンバープレートなども隠せる。動画対応（Beta）。完全クライアント処理で安心。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/FaceMosaicApp/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/FaceMosaicApp/" data-name="顔モザイクメーカー">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード2: クイック席替えメーカー -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app2.png" alt="クイック席替えメーカー">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-chair category-icon icon-classroom"></i>
+                            クイック席替えメーカー
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-classroom">学級運営</span>
+                            <span class="tag tag-quick">30秒で完成</span>
+                            <span class="tag tag-print">印刷最適化</span>
+                        </div>
+                        <p class="app-description">
+                            30秒で座席表が完成する究極シンプルアプリ。Excelから名前をコピペで超高速入力、柔軟なレイアウト設定（列×行）、クリックで席を入れ替えて微調整。印刷・PDF最適化でA4用紙にきれいに出力。インストール不要。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/Quick-Seat-Change-Maker/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/Quick-Seat-Change-Maker/" data-name="席替えメーカー">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード3: 教室用ビジュアルタイマー -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app3.png" alt="教室用ビジュアルタイマー">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-clock category-icon icon-timer"></i>
+                            教室用ビジュアルタイマー
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-visual">視覚的</span>
+                            <span class="tag tag-classroom">授業支援</span>
+                            <span class="tag tag-fullscreen">全画面対応</span>
+                        </div>
+                        <p class="app-description">
+                            子どもにも分かりやすい教室用タイマー。円グラフで残り時間を可視化、時間経過で色が変化（青→黄→赤）。複数タイマー同時管理、全画面モード、選べる通知音（無音・チャイム・読み上げ・アラーム）。プロジェクター提示に最適。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/Classroom-Timer/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/Classroom-Timer/" data-name="ビジュアルタイマー">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード4: クラスメモボード -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app4.png" alt="クラスメモボード">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-chalkboard category-icon icon-classroom"></i>
+                            クラスメモボード
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-classroom">学級運営</span>
+                            <span class="tag tag-memo">連絡事項</span>
+                            <span class="tag tag-print">印刷対応</span>
+                        </div>
+                        <p class="app-description">
+                            クラスの情報を一箱所に集約するデジタル掲示板。今日の予定・連絡事項、提出物チェックリスト、当番表、簡易メモ機能搭載。自動保存、印刷・PDF保存対応。黒板・ホワイトボードの代わりに最適。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/class-memo-board/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/class-memo-board/" data-name="クラスメモボード">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード5: ランダムセレクター -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app5.png" alt="ランダムセレクター">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-dice category-icon icon-random"></i>
+                            ランダムセレクター
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-fun">楽しい</span>
+                            <span class="tag tag-random">抽選</span>
+                            <span class="tag tag-group">グループ分け</span>
+                        </div>
+                        <p class="app-description">
+                            楽しくて公平な抽選・グループ分けアプリ。ルーレットモードでアニメーション付き抽選、グループ分けモードで2～8チームを自動編成。除外機能で全員に当たるまで回せる、大画面モード対応。紙吹雪エフェクトで盛り上がります。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/RandomSelector/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/RandomSelector/" data-name="ランダムセレクター">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード6: FormMirror -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app6.png" alt="FormMirror">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-running category-icon icon-sports"></i>
+                            FormMirror
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-sports">体育</span>
+                            <span class="tag tag-ai">AI骨格検出</span>
+                            <span class="tag tag-video">動画比較</span>
+                        </div>
+                        <p class="app-description">
+                            動作分析・フォームチェックアプリ。お手本動画と自分の動きを2画面で同時再生・比較。MediaPipe AIで骨格検出、軌跡表示、表情ワイプ機能搭載。体育授業、部活動、スポーツトレーニングに最適。ブラウザ完結で安心。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/FormMirror/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/FormMirror/" data-name="FormMirror">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード7: 万能PNGコンバーター -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app7.png" alt="万能PNGコンバーター">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-file-image category-icon icon-converter"></i>
+                            万能PNGコンバーター
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-converter">変換</span>
+                            <span class="tag tag-privacy">機密保護</span>
+                            <span class="tag tag-office">Office対応</span>
+                        </div>
+                        <p class="app-description">
+                            PDF、画像、Office（Excel・Word・PowerPoint）、テキストをPNG画像に変換。完全クライアントサイド処理で機密情報も安心。一括ZIP保存対応。PDFは全ページ高解像度分割、Officeファイルも専用ソフト不要で画像化。ドラッグ＆ドロップで簡単変換。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/Universal-PNG-Converter/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/Universal-PNG-Converter/" data-name="PNGコンバーター">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード8: QR Generator -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app8.png" alt="QR Generator">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-qrcode category-icon icon-qr"></i>
+                            QR Generator
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-qr">QRコード</span>
+                            <span class="tag tag-bulk">一括生成</span>
+                            <span class="tag tag-print">印刷最適化</span>
+                        </div>
+                        <p class="app-description">
+                            教材用QRコード一括生成ツール。Excelからコピペで大量のQRコードを一度に生成、A4用紙に印刷最適化レイアウト。色・サイズ・枠線をリアルタイム調整、PDF保存対応。タイトル・URL・説明文付きカード自動生成。ICT支援員の必須ツール。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/QR-Generator/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/QR-Generator/" data-name="QR-Generator">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード9: 教室シミュレーター -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app9.png" alt="教室シミュレーター">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-school category-icon icon-classroom"></i>
+                            教室シミュレーター
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-classroom">教室レイアウト</span>
+                            <span class="tag tag-drag">ドラッグ配置</span>
+                            <span class="tag tag-auto">自動配置</span>
+                        </div>
+                        <p class="app-description">
+                            教室座席・レイアウト配置シミュレーションツール。机・椅子・教卓をドラッグ＆ドロップで自由配置。自動配置パターン（一斉授業/グループ学習/コの字型）をワンクリック適用。視認性チェック機能で黒板への見やすさを色分け警告。ローカル保存対応。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/classroom-simulator/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/classroom-simulator/" data-name="教室シミュレーター">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード10: クラス運営マスター -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app10.png" alt="クラス運営マスター">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-users-cog category-icon icon-classroom"></i>
+                            クラス運営マスター
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-classroom">学級運営</span>
+                            <span class="tag tag-all-in-one">オールインワン</span>
+                            <span class="tag tag-fair">公平性</span>
+                        </div>
+                        <p class="app-description">
+                            小学校の学級運営オールインワンツール。日直ローテーション、給食・掃除班分け、係活動管理、発表くじ（公平な指名）を一画面で。欠席者ワンタッチ除外、回数カウントで公平性可視化。名簿・結果をCSV出力。朝の会から授業まで全対応。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/ClassManager/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/ClassManager/" data-name="クラス運営マスター">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード11: 名札メーカー Pro -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app11.png" alt="名札メーカー Pro">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-id-badge category-icon icon-print"></i>
+                            名札メーカー Pro
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-print">印刷</span>
+                            <span class="tag tag-event">イベント</span>
+                            <span class="tag tag-csv">CSV対応</span>
+                        </div>
+                        <p class="app-description">
+                            首かけ名札（A4×8人分）と三角席札（A4×3人分）を簡単作成。CSV一括登録、切り取り線自動配置、フォント・テーマカラー変更、印刷最適化。学級開き・イベント・保護者会に。ブラウザ完結でインストール不要。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/Digital-name-and-seat-card-manufacturer/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/Digital-name-and-seat-card-manufacturer/" data-name="名札メーカーPro">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード12: 時間割メーカー -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app12.png" alt="時間割メーカー">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-calendar-alt category-icon icon-schedule"></i>
+                            時間割メーカー
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-schedule">時間割</span>
+                            <span class="tag tag-design">4つのテーマ</span>
+                            <span class="tag tag-print">印刷対応</span>
+                        </div>
+                        <p class="app-description">
+                            週間時間割を簡単作成。4つのデザインテーマ（ポップ・自然・クール・基本）、児童用/保護者用モード切替、科目の色・名前カスタマイズ、期間自動入力。A4横印刷・PDF保存最適化。データ自動保存でいつでも編集再開。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/WeeklyScheduleMaker/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/WeeklyScheduleMaker/" data-name="時間割メーカー">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード13: デジタル出席簿 -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app13.png" alt="デジタル出席簿">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-clipboard-check category-icon icon-attendance"></i>
+                            デジタル出席簿
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-attendance">出席管理</span>
+                            <span class="tag tag-calendar">カレンダー型</span>
+                            <span class="tag tag-csv">CSV出力</span>
+                        </div>
+                        <p class="app-description">
+                            月間カレンダー型の出席管理ツール。クリックだけで出席○・遅刻△・欠席×を入力。自動集計で出席・欠席・遅刻日数を即座に表示。欠席多数の児童を赤色ハイライト。CSV出力でExcel連携。データ自動保存。学習eポータルより軽快。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/digital-attendance-record/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/digital-attendance-record/" data-name="デジタル出席簿">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アプリカード14: スマートグループ分け -->
+                <div class="app-card">
+                    <div class="app-image">
+                        <img src="images/app14.png" alt="スマートグループ分け">
+                    </div>
+                    <div class="app-content">
+                        <h2 class="app-title">
+                            <i class="fas fa-users category-icon icon-group"></i>
+                            スマートグループ分け
+                        </h2>
+                        <div class="app-tags">
+                            <span class="tag tag-group">グループ分け</span>
+                            <span class="tag tag-smart">最適化</span>
+                            <span class="tag tag-role">役割分担</span>
+                        </div>
+                        <p class="app-description">
+                            参加者名を入力するだけで最適なチーム分けを自動生成。男女比の均等化、役割（リーダー・書記など）の自動割り当て対応。Excel一括入力可、結果はワンクリックでコピー。教育現場やイベント運営に最適。
+                        </p>
+                        <div class="app-buttons">
+                            <a href="https://attikurin.github.io/GroupMaker/" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> アプリを開く
+                            </a>
+                            <button class="btn btn-secondary download-html-btn" data-url="https://attikurin.github.io/GroupMaker/" data-name="スマートグループ分け">
+                                <i class="fas fa-download"></i> HTMLダウンロード
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">
+                <i class="fas fa-heart"></i>
+                教育現場で活躍する先生方を応援します
+            </p>
+            <p class="footer-note">
+                ※すべてのアプリはブラウザ上で完結し、個人情報はサーバーに送信されません
+            </p>
+        </div>
+    </footer>
+
+    <div class="wave-bottom"></div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
