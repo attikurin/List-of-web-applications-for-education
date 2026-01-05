@@ -281,6 +281,8 @@ body {
 .icon-group { color: var(--color-group); }
 .icon-file { color: #48bb78; }
 .icon-spotlight { color: #ecc94b; }
+.icon-voice { color: #f56565; }
+.icon-pdf { color: #f56565; }
 
 /* ==========================================
    タグ
@@ -336,6 +338,10 @@ body {
 .tag-presentation { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
 .tag-spotlight { background: linear-gradient(135deg, #ecc94b, #f6e05e); }
 .tag-blackboard { background: linear-gradient(135deg, #4a5568, #718096); }
+.tag-voice { background: linear-gradient(135deg, #f56565, #fc8181); }
+.tag-signal { background: linear-gradient(135deg, #ecc94b, #f6e05e); }
+.tag-pdf { background: linear-gradient(135deg, #f56565, #fc8181); }
+.tag-merge { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 
 .tag:hover {
     transform: scale(1.05);
