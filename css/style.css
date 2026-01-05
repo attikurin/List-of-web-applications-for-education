@@ -279,6 +279,8 @@ body {
 .icon-schedule { color: var(--color-schedule); }
 .icon-attendance { color: var(--color-attendance); }
 .icon-group { color: var(--color-group); }
+.icon-file { color: #48bb78; }
+.icon-spotlight { color: #ecc94b; }
 
 /* ==========================================
    タグ
@@ -329,6 +331,11 @@ body {
 .tag-calendar { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
 .tag-smart { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
 .tag-role { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+.tag-file { background: linear-gradient(135deg, #48bb78, #68d391); }
+.tag-rename { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.tag-presentation { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.tag-spotlight { background: linear-gradient(135deg, #ecc94b, #f6e05e); }
+.tag-blackboard { background: linear-gradient(135deg, #4a5568, #718096); }
 
 .tag:hover {
     transform: scale(1.05);
