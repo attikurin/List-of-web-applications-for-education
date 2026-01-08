@@ -286,6 +286,7 @@ body {
 .icon-handwriting { color: #ed64a6; }
 .icon-chalkboard { color: #48bb78; }
 .icon-video { color: #8b5cf6; }
+.icon-worksheet { color: #f59e0b; }
 
 /* ==========================================
    タグ
@@ -353,6 +354,8 @@ body {
 .tag-snapshot { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
 .tag-annotation { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 .tag-recording { background: linear-gradient(135deg, #f56565, #fc8181); }
+.tag-worksheet { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.tag-layout { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
 
 .tag:hover {
     transform: scale(1.05);
