@@ -287,6 +287,8 @@ body {
 .icon-chalkboard { color: #48bb78; }
 .icon-video { color: #8b5cf6; }
 .icon-worksheet { color: #f59e0b; }
+.icon-sound { color: #8b5cf6; }
+.icon-scoreboard { color: #3b82f6; }
 
 /* ==========================================
    タグ
@@ -356,6 +358,12 @@ body {
 .tag-recording { background: linear-gradient(135deg, #f56565, #fc8181); }
 .tag-worksheet { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 .tag-layout { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.tag-sound { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.tag-keyboard { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+.tag-event { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.tag-sports { background: linear-gradient(135deg, #10b981, #34d399); }
+.tag-scoreboard { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.tag-fullscreen { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
 
 .tag:hover {
     transform: scale(1.05);
