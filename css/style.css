@@ -290,6 +290,7 @@ body {
 .icon-sound { color: #8b5cf6; }
 .icon-scoreboard { color: #3b82f6; }
 .icon-manuscript { color: #48bb78; }
+.icon-kanji { color: #3b82f6; }
 
 /* ==========================================
    タグ
@@ -367,6 +368,9 @@ body {
 .tag-fullscreen { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
 .tag-manuscript { background: linear-gradient(135deg, #48bb78, #68d391); }
 .tag-writing { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.tag-kanji { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.tag-grade { background: linear-gradient(135deg, #10b981, #34d399); }
+.tag-auto { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
 
 .tag:hover {
     transform: scale(1.05);
