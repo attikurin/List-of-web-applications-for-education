@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アプリ作成ガイド | Gemini Canvasで教育アプリを作ろう</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        .guide-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .guide-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .guide-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .guide-section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        
+        .guide-section h2 {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--color-primary);
+        }
+        
+        .guide-section h3 {
+            font-size: 1.5rem;
+            color: var(--color-secondary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .guide-section h4 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .prompt-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .prompt-box h4 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .prompt-box pre {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 10px 0;
+        }
+        
+        .tips-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .tips-box h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .tips-box ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .category-card h3 {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+        
+        .app-item {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .app-item h4 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        .step-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .step-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .step-box ol {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 60%, #ffeb3b 60%);
+            padding: 2px 4px;
+            font-weight: 600;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 40px 0;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="wave-top"></div>
+    
+    <div class="guide-hero">
+        <div class="container">
+            <h1><i class="fas fa-book-open"></i> アプリ作成ガイド</h1>
+            <p>Gemini Canvasで教育現場向けWebアプリを作ろう！<br>
+            プログラミング知識不要、AIへの正しい指示でここまで作れる</p>
+        </div>
+    </div>
+
+    <main>
+        <div class="guide-section">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> アプリ一覧に戻る
+            </a>
+
+            <h2><i class="fas fa-lightbulb"></i> はじめに</h2>
+            <p>このページでは、本サイトで紹介している全27個のアプリを<span class="highlight">どのようにGemini Canvasで作成したか</span>を詳しく解説します。</p>
+            <p>先生やICT支援員の方が「自分も作ってみたい」「仕組みを知りたい」と思った時に、すぐに実践できる内容になっています。</p>
+
+            <div class="tips-box">
+                <h4><i class="fas fa-star"></i> このガイドでわかること</h4>
+                <ul>
+                    <li>各アプリを作成するための<strong>具体的なプロンプト（指示文）</strong></li>
+                    <li>作成・カスタマイズする際の<strong>重要なポイント</strong></li>
+                    <li>学校現場で使いやすくするための<strong>工夫</strong></li>
+                    <li>Gemini Canvasへの<strong>効果的な指示の出し方</strong></li>
+                </ul>
+            </div>
+
+            <h2><i class="fas fa-magic"></i> 全アプリ共通の基本設定</h2>
+            <p>Gemini Canvasで作成する際、<strong>すべてのアプリで共通して以下の条件</strong>を最初に入力しています。</p>
+            <p>これにより、学校現場で最も重要な「<span class="highlight">セキュリティ</span>」と「<span class="highlight">使いやすさ</span>」を担保しています。</p>
+
+            <div class="prompt-box">
+                <h4><i class="fas fa-terminal"></i> 基本プロンプト（呪文）</h4>
+                <pre>以下の要件を満たすWebアプリを作成してください。
+
+1. **技術:** HTML5, Tailwind CSS, JavaScript (React/Vue等のCDN版を使用可)
+2. **構造:** 単一のHTMLファイル（シングルファイル）で完結させること
+3. **セキュリティ:** サーバーへのデータ送信は一切行わない。
+   全ての処理をブラウザ上のJavaScriptで完結させる（ローカル処理）
+4. **デザイン:** 学校の先生が使いやすい、清潔でモダンなUI</pre>
+            </div>
+
+            <div class="tips-box">
+                <h4><i class="fas fa-exclamation-circle"></i> なぜこの条件が重要？</h4>
+                <ul>
+                    <li><strong>単一HTMLファイル:</strong> インストール不要、ファイルを開くだけで使える</li>
+                    <li><strong>ローカル処理:</strong> 児童生徒の個人情報が外部に送信されない</li>
+                    <li><strong>Tailwind CSS:</strong> モダンなデザインを簡単に実装できる</li>
+                    <li><strong>CDN使用:</strong> 外部ライブラリも1ファイルで完結</li>
+                </ul>
+            </div>
+
+            <!-- カテゴリ1: 画像・映像・AI処理 -->
+            <div class="category-card">
+                <h3><i class="fas fa-camera"></i> 1. 画像・映像・AI処理アプリ</h3>
+                <p>児童の顔が映るデータを<strong>クラウドに上げずに処理</strong>できるツール群です。</p>
+
+                <div class="app-item">
+                    <h4>① 全自動・顔モザイクメーカー</h4>
+                    <p><strong>機能:</strong> 動画・写真から顔を自動検出し、モザイクやぼかしを入れる</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>face-api.jsを使用して、Webカメラまたはアップロードされた動画ファイルから
+リアルタイムで顔を検出し、その部分にモザイク処理またはぼかし処理をかける
+アプリを作成してください。
+
+処理は全てクライアントサイドで行い、サーバーへのアップロードは一切しないこと。
+処理済みの動画・画像をダウンロードできるようにしてください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>重さに注意:</strong> AIモデルの読み込みに数秒かかるため、「読み込み中...」の表示を出すよう指示するのがポイント</li>
+                            <li><strong>プライバシー表示:</strong> 「サーバーにアップロードしていません」という文言を画面に見やすく表示すると、保護者への説明にも使える</li>
+                            <li><strong>処理速度:</strong> 動画は長時間だと重くなるため、「5分以内推奨」などの注意書きを追加</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>② FormMirror（動作分析・フォームチェック）</h4>
+                    <p><strong>機能:</strong> 体育のフォーム確認用。数秒前の映像を遅れて再生する</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>Webカメラの映像を取得し、設定した秒数（例: 5秒）だけ遅れて表示される
+「追っかけ再生」アプリを作成してください。
+
+メモリバッファを使用して一時保存し、過去のフレームを描画する仕組みで実装。
+遅延秒数は1〜30秒の範囲でスライダーで調整できるようにしてください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>メモリ管理:</strong> 長時間の遅延はメモリを食うため、「最大遅延時間は30秒まで」などの制限を設ける指示が有効</li>
+                            <li><strong>全画面表示:</strong> 体育館での使用を想定し、フルスクリーン機能を追加</li>
+                            <li><strong>録画機能:</strong> 良いフォームを記録できるよう、録画ボタンの追加も検討</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>③ 声の大きさ信号機</h4>
+                    <p><strong>機能:</strong> マイクの音量に合わせて、信号機の色（青・黄・赤）が変わる</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>Web Audio APIを使用してマイク入力の音量レベルを取得し、
+リアルタイムで可視化するアプリを作成してください。
+
+音量に応じて信号機の色が変化（静か=青、普通=黄、うるさい=赤）。
+一定の閾値を超えたら「静かに」のアラート画像を表示する機能も追加。
+閾値は3つのプリセット（自習・授業・グループ活動）から選択可能に。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>感度調整:</strong> 教室環境は常にざわついているため、「感度調整スライダー」の実装が必須</li>
+                            <li><strong>視覚的フィードバック:</strong> 信号機だけでなく、音量メーターも表示すると分かりやすい</li>
+                            <li><strong>音声なし:</strong> 静かにさせるアプリなので、アラート音は出さない方が良い</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>④ 動画＆カメラ お絵かきツール</h4>
+                    <p><strong>機能:</strong> 動画やカメラ映像の上に、手書きで線や図形を描き込む</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>&lt;video&gt;要素の上に透明な&lt;canvas&gt;要素を重ねて、
+映像を見ながらペンツールで手書きができるアプリを作成してください。
+
+描いた内容を映像ごと画像として保存できるようにして。
+ペンの色・太さ変更、消しゴム機能も実装してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>レイヤー:</strong> 動画と手書きレイヤーのサイズがずれないよう、レスポンシブ対応を指示に含める</li>
+                            <li><strong>タッチ対応:</strong> タブレットでの使用を想定し、タッチ操作対応を明記</li>
+                            <li><strong>録画機能:</strong> 描画プロセスも録画できると、体育指導で役立つ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- カテゴリ2: ファイル処理・変換 -->
+            <div class="category-card">
+                <h3><i class="fas fa-file-archive"></i> 2. ファイル処理・変換アプリ</h3>
+                <p>校務PCで「ソフトが入れられない」悩みを解決するツール群です。</p>
+
+                <div class="app-item">
+                    <h4>⑤ 提出物リネーム屋さん / ⑥ 万能PNGコンバーター / ⑦ PDFちょこっと整理</h4>
+                    <p><strong>機能:</strong> ファイル名の整理、画像変換、PDFの結合・分割</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト（提出物リネーム屋さんの例）</h4>
+                        <pre>JSZip（ZIP圧縮用）ライブラリを使って、
+ドラッグ＆ドロップされたファイルのファイル名を一括変更し、
+ZIP形式でダウンロードできるアプリを作成してください。
+
+名簿CSVをアップロードすると、出席番号順にリネームされる機能も追加。
+ファイル名は「01_山田太郎.jpg」のような形式で。
+Windowsで文字化けしないよう、Shift_JISエンコーディングに対応してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>文字化け対策:</strong> ZIPファイル作成時、「ファイル名のエンコーディング（Shift_JIS対応など）に配慮して」と指示すると完成度が上がる</li>
+                            <li><strong>大量処理:</strong> 一度に100ファイルなどを扱う場合があるため、「進捗バー（プログレスバー）」をつけると親切</li>
+                            <li><strong>プレビュー:</strong> リネーム前後のファイル名を一覧表示すると、ミスが減る</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>⑧ ワークシートページ切り出しツール</h4>
+                    <p><strong>機能:</strong> PDF/画像から必要なページを切り出し、1枚のA4にレイアウト</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>PDF.jsを使ってPDFファイルを読み込み、各ページをサムネイル表示。
+選択したページを1枚のA4用紙に1/2/4分割でレイアウトし、
+jsPDFを使って新しいPDFとして保存できるアプリを作成してください。
+
+ページの並び替え・削除もドラッグ&ドロップで可能にしてください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>用紙設定:</strong> A4縦/横の選択、余白設定も追加すると使いやすい</li>
+                            <li><strong>プレビュー:</strong> 最終レイアウトをプレビュー表示してから保存できるように</li>
+                            <li><strong>画像対応:</strong> PDF以外にJPG/PNGにも対応すると便利</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>⑨ QR Generator</h4>
+                    <p><strong>機能:</strong> URLやテキストからQRコードを一括生成</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>qrcode.jsを使って、入力されたURL・テキストを即座にQRコード画像に変換し、
+PNG形式で保存できるツールを作成してください。
+
+CSVファイルで複数のURLを一括入力すると、
+A4用紙に複数のQRコードを並べて印刷できるレイアウトを生成。
+各QRコードの下に説明文も表示できるようにしてください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>印刷対応:</strong> QRコードは「印刷用レイアウト」を指示し、余白の少ない状態で出力</li>
+                            <li><strong>サイズ調整:</strong> QRコードのサイズを小/中/大で選択できるように</li>
+                            <li><strong>エラー訂正:</strong> 読み取りやすさを考慮し、エラー訂正レベルをH（高）に設定</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- カテゴリ3: 学級経営・事務 -->
+            <div class="category-card">
+                <h3><i class="fas fa-clipboard-list"></i> 3. 学級経営・事務アプリ</h3>
+                <p>エクセルよりも直感的で、学級経営に特化したツール群です。</p>
+
+                <div class="app-item">
+                    <h4>⑩ クイック席替えメーカー / ⑪ スマートグループ分け</h4>
+                    <p><strong>機能:</strong> 条件付きの席替えやグループ作成</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>生徒の名簿リスト（改行区切り）を入力すると、
+指定した列数でランダムに席を配置するアプリを作成してください。
+
+以下の固定条件を設定できるようにして：
+- 前の席固定（視力配慮）
+- 隣同士禁止（相性配慮）
+- 男女交互配置
+
+結果はExcel形式でコピペできる形式、およびPDF保存に対応。
+localStorageを使って入力データを自動保存してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>リセット防止:</strong> 作業中に誤ってブラウザを閉じても大丈夫なよう、「localStorageを使って入力データを自動保存して」という指示が絶対に必要</li>
+                            <li><strong>履歴機能:</strong> 過去の席替え結果を保存しておき、隣同士にならないよう配慮</li>
+                            <li><strong>視覚化:</strong> 座席表を教室風のレイアウトで表示すると分かりやすい</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>⑫ デジタル出席簿</h4>
+                    <p><strong>機能:</strong> 日付ごとの出欠管理、CSV出力</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>日付ごとの出欠状況をクリックで切り替え（出席○・欠席×・遅刻△）でき、
+その結果をCSV形式でエクスポートできるテーブルを作成してください。
+
+カレンダー形式で月間表示し、各生徒の出席率を自動計算。
+データはブラウザのIndexedDBに保存し、長期間の記録が可能にしてください。
+CSVインポート機能も実装して、名簿の一括登録ができるように。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>CSV連携:</strong> 他の校務システムと連携できるよう、必ず「CSVインポート/エクスポート機能」をつける</li>
+                            <li><strong>統計表示:</strong> 出席率、遅刻回数などの統計を自動計算して表示</li>
+                            <li><strong>色分け:</strong> 出席○=緑、欠席×=赤など、視覚的に分かりやすく</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>⑬ クラス運営マスター / ⑭ 名札メーカー Pro</h4>
+                    <p><strong>機能:</strong> 日直・給食当番・係活動の管理、名札印刷</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト（名札メーカーの例）</h4>
+                        <pre>名簿CSVをアップロードすると、A4用紙に複数の名札を並べて印刷できる
+レイアウトを生成するアプリを作成してください。
+
+名札のサイズ（首かけ名札/三角席札）、フォントサイズ、
+イラストの挿入などをカスタマイズ可能に。
+印刷時は切り取り線も表示し、A4サイズに最適化してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>テンプレート:</strong> よく使うレイアウトをテンプレートとして保存できるように</li>
+                            <li><strong>イラスト素材:</strong> 季節のイラストや学年カラーを選択できると便利</li>
+                            <li><strong>印刷CSS:</strong> @media printを使用して、印刷時専用のスタイルを適用</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>⑮ 時間割メーカー</h4>
+                    <p><strong>機能:</strong> 週間時間割の作成と印刷</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>ドラッグ&ドロップで科目を配置できる時間割表を作成してください。
+
+科目名、教室名、色分けをカスタマイズ可能。
+児童用・保護者用の2つのレイアウトを切り替えられるように。
+4つのデザインテーマ（シンプル/カラフル/モノクロ/かわいい）を用意。
+PDF保存とExcel形式でのコピペに対応してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>テンプレート:</strong> 学年別の標準時間割をテンプレートとして用意</li>
+                            <li><strong>特別時程:</strong> 短縮授業や行事日程にも対応できるように</li>
+                            <li><strong>印刷最適化:</strong> A4/B5サイズに合わせて自動調整</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- カテゴリ4: テスト・プリント作成 -->
+            <div class="category-card">
+                <h3><i class="fas fa-file-alt"></i> 4. テスト・プリント作成アプリ</h3>
+                <p>週次の定期業務を効率化するツール群です。</p>
+
+                <div class="app-item">
+                    <h4>⑯ 漢字テストメーカー</h4>
+                    <p><strong>機能:</strong> 学年別の漢字テストを自動生成</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>小1〜中3の学年配当漢字データベースを内蔵し、
+ランダムに抽出して漢字テストを生成するアプリを作成してください。
+
+出題形式は「読み（漢字→かな）」「書き（かな→漢字）」を切り替え可能。
+レイアウトは縦書き/横書きに対応。
+問題数は10問/20問/50問から選択（20問以上は自動ページ分割）。
+
+問題入替ボタンで再シャッフル、内容編集機能で個別に修正可能。
+模範解答ページも自動生成。A4印刷最適化、PDF保存に対応してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>データベース:</strong> 学年配当漢字リストを正確に用意することが最重要</li>
+                            <li><strong>例文の質:</strong> 適切な難易度の例文を用意し、文脈で理解できるように</li>
+                            <li><strong>印刷CSS:</strong> 画面表示と印刷時の見た目を@media printで最適化</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>⑰ 原稿用紙エディタ</h4>
+                    <p><strong>機能:</strong> 縦書き原稿用紙のリアルタイムプレビュー</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>左側にテキスト入力エリア、右側に縦書き原稿用紙プレビューを配置した
+エディタを作成してください。
+
+用紙設定は400字詰・200字詰・100字詰から選択可能。
+枚数設定は自動（文字数に応じて追加）または1〜10枚固定。
+リアルタイムプレビューで、入力と同時に原稿用紙に反映。
+
+PDF保存（A4印刷対応）、テキスト保存（.txt）機能を実装。
+完全ローカル動作でデータは外部送信しないこと。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>ルビ対応:</strong> 難しい漢字にルビを振れる機能があると便利</li>
+                            <li><strong>文字数カウント:</strong> リアルタイムで文字数を表示</li>
+                            <li><strong>自動保存:</strong> localStorageで入力内容を定期的に自動保存</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>⑱ 算数・数学 図形作成ツール</h4>
+                    <p><strong>機能:</strong> 正確な図形を数値入力で自動描画</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>Canvas APIを使って、数値入力で正確な図形を描画するツールを作成してください。
+
+対応図形：
+- 三角形（3辺指定/SAS指定）
+- 四角形（各辺の長さと角度指定）
+- 円（半径・直径指定）
+- 角度（任意の角度を描画）
+- 座標指定（X-Y座標で点を配置）
+
+ラベル表示機能（頂点名A,B,C...、辺の長さ、角度）を実装。
+方眼紙モードで図形のサイズ感を確認可能（保存時は非表示）。
+図形はドラッグで移動可能。背景透過PNGで保存し、Word/PowerPointに直接貼付可能に。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>三角関数:</strong> 正確な作図には三角関数（sin, cos）の計算が必須</li>
+                            <li><strong>グリッド:</strong> 方眼紙の間隔を調整できると便利</li>
+                            <li><strong>色変更:</strong> 線の色や太さを変更できるように</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- カテゴリ5: 授業支援・演出 -->
+            <div class="category-card">
+                <h3><i class="fas fa-chalkboard-teacher"></i> 5. 授業支援・演出アプリ</h3>
+                <p>教室の空気をコントロールし、授業を盛り上げるツール群です。</p>
+
+                <div class="app-item">
+                    <h4>⑲ 教室用ビジュアルタイマー</h4>
+                    <p><strong>機能:</strong> 残り時間を視覚的に表示するタイマー</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>残り時間を円グラフまたはバーで視覚的に減らしていくタイマーを作成してください。
+
+残り1分で色が黄色に、0分で赤に変化。
+終了時にアラーム音を鳴らす（音量調整可能）。
+複数タイマーの同時管理機能、全画面表示モード対応。
+
+プリセットタイマー（5分/10分/15分）も用意。
+ブラウザのFullscreen APIを使用してフルスクリーン表示を実装してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>全画面:</strong> 授業での提示用に「フルスクリーン表示ボタン」を実装</li>
+                            <li><strong>音の再生:</strong> ブラウザの仕様上、ユーザーが一度画面をクリックしないと音が鳴らないため、「開始ボタン」を必ず設置</li>
+                            <li><strong>カスタマイズ:</strong> 色やアニメーションを好みに変更できるように</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>⑳ 集中スポットライト</h4>
+                    <p><strong>機能:</strong> 画面の特定部分だけを照らして注目させる</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>画面全体を暗くし、マウスカーソル（またはタッチ位置）の周りだけ明るく表示する
+「スポットライト」機能を作成してください。
+
+スポットライトの形状は円・四角・スリットから選択可能。
+透過率（暗さの度合い）を調整できるスライダーを実装。
+背景画像を読み込んで、その上にスポットライトを当てることも可能に。
+タッチ操作対応で、タブレットでも使いやすくしてください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>デジタル教科書:</strong> プロジェクターでデジタル教科書を投影する際に便利</li>
+                            <li><strong>サイズ調整:</strong> スポットライトのサイズを調整できるように</li>
+                            <li><strong>固定モード:</strong> 特定位置にスポットライトを固定できる機能も有用</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>㉑ ランダムセレクター</h4>
+                    <p><strong>機能:</strong> 名前をルーレット形式でランダムに選ぶ</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>生徒名リストからランダムに1人を選ぶルーレットを作成してください。
+
+ドラムロールのような演出アニメーションと効果音を入れて。
+当選時に紙吹雪（confetti）を散らすアニメーションを実装。
+
+ルーレットモードとグループ分けモード（2〜8チーム自動編成）を切り替え可能。
+一度選ばれた人を除外するオプションも追加してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>盛り上げ:</strong> 演出が大事。紙吹雪や効果音で子供たちが喜ぶ</li>
+                            <li><strong>スピード調整:</strong> ルーレットの回転速度を調整できると良い</li>
+                            <li><strong>履歴:</strong> 過去に誰が選ばれたか履歴を表示</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>㉒ 効果音ポン出しサンプラー</h4>
+                    <p><strong>機能:</strong> キーボード操作で効果音を再生</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>16個のパッドに音声ファイル（MP3/WAV等）をドラッグ&ドロップで設定でき、
+クリックまたはキーボードショートカット（1〜4、Q〜Rなど）で再生できる
+サウンドボードを作成してください。
+
+全停止機能（スペースキー）、マスターボリューム調整、
+ループ再生設定、パッドの色分け機能を実装。
+設定はlocalStorageに保存し、次回起動時に復元できるようにしてください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>効果音素材:</strong> 著作権フリーの効果音サイトを紹介すると親切</li>
+                            <li><strong>連打対応:</strong> 同じボタンを連続押ししても正常に動作するように</li>
+                            <li><strong>表示名変更:</strong> パッドに表示する名前を編集できるように</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>㉓ 万能デジタル得点板</h4>
+                    <p><strong>機能:</strong> 体育授業・球技大会用のスコアボード</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト</h4>
+                        <pre>視認性抜群の巨大デジタルフォントで得点を表示するスコアボードを作成してください。
+
+バスケ用に+1/+2/+3ボタン、バレー・卓球用にセット数カウント機能。
+チーム名編集、タイマー機能（カウントダウン/カウントアップ）、
+コート変更（左右入れ替え）、オールリセット機能を実装。
+
+React + Tailwind CSSで実装し、タブレット横画面で本格的な試合雰囲気を演出。
+Google Fonts（Black Ops One等）で大きく見やすいフォントを使用してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>フォントサイズ:</strong> 体育館の後ろからでも見えるよう、超特大サイズに</li>
+                            <li><strong>色分け:</strong> チームごとに色を変えると分かりやすい</li>
+                            <li><strong>キーボード操作:</strong> タッチ操作だけでなく、キーボードでも得点操作できるように</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <h4>㉔ 教室シミュレーター / ㉕ 板書計画シミュレーター</h4>
+                    <p><strong>機能:</strong> 机の配置や板書のレイアウトをシミュレーション</p>
+                    
+                    <div class="prompt-box">
+                        <h4>Gemini Canvasへのプロンプト（教室シミュレーターの例）</h4>
+                        <pre>ドラッグ&ドロップで机や教卓を自由に配置できるキャンバスを作成してください。
+
+机、教卓、ロッカー、黒板などのオブジェクトをパレットから選択して配置。
+グリッド（スナップ機能）で整列しやすくする。
+配置図は背景透過PNGとして保存可能。
+
+複数のレイアウト案を保存・切り替えできる機能も実装してください。</pre>
+                    </div>
+
+                    <div class="tips-box">
+                        <h4>作成・活用のコツ</h4>
+                        <ul>
+                            <li><strong>グリッド:</strong> きれいに配置できるよう、「スナップ機能（グリッドに吸着）」を指示に含める</li>
+                            <li><strong>テンプレート:</strong> 標準的な教室レイアウトをテンプレートとして用意</li>
+                            <li><strong>寸法表示:</strong> 実際の教室サイズ（cm単位）で配置できると便利</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gemini活用の3ステップ -->
+            <div class="step-box">
+                <h3><i class="fas fa-rocket"></i> 先生方へ：Gemini Canvasでアプリを作る3ステップ</h3>
+                <p>このサイトのアプリを参考に、先生ご自身で「自分専用アプリ」を作りたい場合は、以下の手順でGemini（Canvasモード）に話しかけてみてください。</p>
+                
+                <ol>
+                    <li><strong>欲しい機能を言う</strong>
+                        <p>「〇〇をするアプリを作って」とシンプルに伝える</p>
+                        <p>例：「生徒の名前をランダムに選ぶアプリを作って」</p>
+                    </li>
+                    
+                    <li><strong>制約をつける</strong>
+                        <p>「インストール不要で、HTML1つで動くようにして」</p>
+                        <p>「サーバーにデータを送信しないで」</p>
+                    </li>
+                    
+                    <li><strong>調整する</strong>
+                        <p>「もっとボタンを大きくして」</p>
+                        <p>「印刷できるようにして」</p>
+                        <p>「スマホでも使えるようにして」</p>
+                    </li>
+                </ol>
+                
+                <p style="margin-top: 30px;">この3ステップだけで、驚くほど実用的なツールが生まれます。<br>
+                ぜひ、このサイトのアプリを触りながら、次のアイデアを膨らませてみてください。</p>
+            </div>
+
+            <div class="tips-box">
+                <h4><i class="fas fa-lightbulb"></i> プロンプトのコツ</h4>
+                <ul>
+                    <li><strong>具体的に:</strong> 「ボタンを大きく」ではなく「ボタンの高さを60pxに」と数値で指定</li>
+                    <li><strong>段階的に:</strong> 一度にすべてを頼まず、基本機能→追加機能と段階的に</li>
+                    <li><strong>例を示す:</strong> 「このサイトの〇〇みたいな感じで」と参考URLを示す</li>
+                    <li><strong>制約を明確に:</strong> 「必ずHTML1ファイルで」「必ずローカル処理で」と念押し</li>
+                    <li><strong>エラー対応:</strong> うまく動かない場合は「このエラーを直して」とエラーメッセージをそのまま貼る</li>
+                </ul>
+            </div>
+
+            <h2><i class="fas fa-graduation-cap"></i> まとめ</h2>
+            <p>このガイドで紹介した27個のアプリは、すべて<span class="highlight">Gemini Canvasへの適切な指示</span>だけで作成できます。</p>
+            <p>プログラミングの知識がなくても、「何を作りたいか」「どう使いたいか」を明確に伝えることで、実用的なツールが完成します。</p>
+            
+            <div class="prompt-box">
+                <h4><i class="fas fa-star"></i> 重要なポイント</h4>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li>✅ HTML1ファイルで完結（インストール不要）</li>
+                    <li>✅ 完全ローカル処理（個人情報保護）</li>
+                    <li>✅ 段階的な調整（完璧を最初から求めない）</li>
+                    <li>✅ 具体的な指示（数値や条件を明確に）</li>
+                    <li>✅ 参考例を示す（「〇〇みたいな感じで」）</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 40px; font-size: 1.2rem; text-align: center;">
+                <strong>あなたの「こんなツールがあったら便利なのに」というアイデアが、<br>
+                次の画期的な教育アプリになるかもしれません！</strong>
+            </p>
+
+            <div style="text-align: center; margin: 60px 0;">
+                <a href="index.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i> アプリ一覧に戻る
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">
+                <i class="fas fa-heart"></i>
+                教育現場で活躍する先生方を応援します
+            </p>
+            <p class="footer-note">
+                ※すべてのアプリはブラウザ上で完結し、個人情報はサーバーに送信されません
+            </p>
+        </div>
+    </footer>
+
+    <div class="wave-bottom"></div>
+</body>
+</html>
