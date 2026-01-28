@@ -294,6 +294,7 @@ body {
 .icon-geometry { color: #f59e0b; }
 .icon-voice-correction { color: #f56565; }
 .icon-notebook { color: #ed64a6; }
+.icon-sorara { color: #60a5fa; }
 
 /* ==========================================
    タグ
@@ -382,6 +383,7 @@ body {
 .tag-voice-text { background: linear-gradient(135deg, #ed64a6, #f687b3); }
 .tag-hiragana { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 .tag-elementary { background: linear-gradient(135deg, #10b981, #34d399); }
+.tag-simple { background: linear-gradient(135deg, #60a5fa, #93c5fd); }
 
 .tag:hover {
     transform: scale(1.05);
