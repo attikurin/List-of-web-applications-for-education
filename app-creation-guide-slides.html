@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アプリ作成ガイド（スライド版）| Gemini Canvasで教育アプリを作ろう</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        /* ナビゲーションボタン */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        /* キーボードヒント */
+        .keyboard-hint {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            color: #666;
+            z-index: 1000;
+        }
+
+        .keyboard-hint i {
+            color: #667eea;
+            margin: 0 5px;
+        }
+
+        /* 既存のスタイルをそのまま適用 */
+        .guide-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .guide-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .guide-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .guide-section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px 100px 20px;
+        }
+        
+        .guide-section h2 {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--color-primary);
+        }
+        
+        .guide-section h3 {
+            font-size: 1.5rem;
+            color: var(--color-secondary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .guide-section h4 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .prompt-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .prompt-box h4 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .prompt-box pre {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 10px 0;
+        }
+        
+        .tips-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .tips-box h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .tips-box ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .category-card h3 {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+        
+        .app-item {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .app-item h4 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        .step-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .step-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .step-box ol {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 60%, #ffeb3b 60%);
+            padding: 2px 4px;
+            font-weight: 600;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 40px 0;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .nav-buttons {
+                bottom: 15px;
+                padding: 10px 15px;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .keyboard-hint {
+                display: none;
+            }
+
+            .guide-section {
+                padding: 20px 15px 100px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="keyboard-hint">
+        <i class="fas fa-arrow-left"></i> 前へ　<i class="fas fa-arrow-right"></i> 次へ　<i class="fas fa-keyboard"></i> キーボード操作可能
+    </div>
+
+    <div class="slide-container">
+        <!-- スライド1: タイトル -->
+        <div class="slide active">
+            <div class="wave-top"></div>
+            <div class="guide-hero">
+                <div class="container">
+                    <h1><i class="fas fa-book-open"></i> アプリ作成ガイド</h1>
+                    <p>Gemini Canvasで教育現場向けWebアプリを作ろう！<br>
+                    プログラミング知識不要、AIへの正しい指示でここまで作れる</p>
+                    <p style="margin-top: 40px; font-size: 1.1rem; opacity: 0.8;">
+                        <i class="fas fa-arrow-right"></i> 右矢印キーまたは「次へ」ボタンでスタート
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド2: はじめに -->
+        <div class="slide">
+            <div class="wave-top"></div>
+            <div class="guide-section">
+                <a href="index.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i> アプリ一覧に戻る
+                </a>
+
+                <h2><i class="fas fa-lightbulb"></i> はじめに</h2>
+                <p>このページでは、本サイトで紹介している全30個のアプリを<span class="highlight">どのようにGemini Canvasで作成したか</span>を詳しく解説します。</p>
+                <p>先生やICT支援員の方が「自分も作ってみたい」「仕組みを知りたい」と思った時に、すぐに実践できる内容になっています。</p>
+
+                <div class="tips-box">
+                    <h4><i class="fas fa-star"></i> このガイドでわかること</h4>
+                    <ul>
+                        <li>各アプリを作成するための<strong>具体的なプロンプト（指示文）</strong></li>
+                        <li>作成・カスタマイズする際の<strong>重要なポイント</strong></li>
+                        <li>学校現場で使いやすくするための<strong>工夫</strong></li>
+                        <li>Gemini Canvasへの<strong>効果的な指示の出し方</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド3: 全アプリ共通の基本設定 -->
+        <div class="slide">
+            <div class="wave-top"></div>
+            <div class="guide-section">
+                <h2><i class="fas fa-magic"></i> 全アプリ共通の基本設定</h2>
+                <p>Gemini Canvasで作成する際、<strong>すべてのアプリで共通して以下の条件</strong>を最初に入力しています。</p>
+                <p>これにより、学校現場で最も重要な「<span class="highlight">セキュリティ</span>」と「<span class="highlight">使いやすさ</span>」を担保しています。</p>
+
+                <div class="prompt-box">
+                    <h4><i class="fas fa-terminal"></i> 基本プロンプト（呪文）</h4>
+                    <pre>以下の要件を満たすWebアプリを作成してください。
+
+1. **技術:** HTML5, Tailwind CSS, JavaScript (React/Vue等のCDN版を使用可)
+2. **ファイル形式:** 単一のHTMLファイルにすべてを含める
+3. **データ処理:** 完全クライアントサイド処理（サーバーにデータを送信しない）
+4. **保存:** localStorage または ファイルダウンロード機能を実装
+5. **レスポンシブ:** スマホ・タブレット・PCで快適に動作
+6. **UI/UX:** 教員・児童生徒が直感的に使える優しいデザイン</pre>
+                </div>
+
+                <div class="tips-box">
+                    <h4><i class="fas fa-shield-alt"></i> なぜこの条件が重要？</h4>
+                    <ul>
+                        <li><strong>単一ファイル:</strong> インストール不要でダブルクリックで起動</li>
+                        <li><strong>クライアント処理:</strong> 個人情報が外部に送信されない安心感</li>
+                        <li><strong>レスポンシブ:</strong> GIGAスクール端末（iPad等）で即座に使える</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド4: カテゴリ1-1 全自動・顔モザイクメーカー -->
+        <div class="slide">
+            <div class="wave-top"></div>
+            <div class="guide-section">
+                <div class="category-card">
+                    <h3><i class="fas fa-image"></i> 1. 画像・映像・AI処理アプリ</h3>
+                    <p>個人情報保護と教材作成を支援するツール群です。</p>
+
+                    <div class="app-item">
+                        <h4>① 全自動・顔モザイクメーカー</h4>
+                        <p><strong>機能:</strong> 画像や動画の顔を自動検出してモザイク処理</p>
+                        
+                        <div class="prompt-box">
+                            <h4>Gemini Canvasへのプロンプト</h4>
+                            <pre>画像や動画をアップロードすると、顔を自動検出してモザイク処理を施すWebアプリを作成してください。
+
+TensorFlow.jsのface-detection APIを使用して顔検出。
+モザイクの強度を調整できるスライダーを実装。
+動画の場合はフレームごとに処理し、処理済み動画をダウンロード可能に。
+
+すべての処理はブラウザ内で完結し、サーバーにデータを送信しないでください。</pre>
+                        </div>
+
+                        <div class="tips-box">
+                            <h4>作成・活用のコツ</h4>
+                            <ul>
+                                <li><strong>モデルの選択:</strong> TensorFlow.jsは初回読み込みに時間がかかるため、「読み込み中」の表示を忘れずに</li>
+                                <li><strong>動画処理:</strong> 長い動画は処理時間がかかるため、「10秒以内推奨」などの注意書きを表示</li>
+                                <li><strong>プライバシー配慮:</strong> 「データは外部に送信されません」と明記すると保護者も安心</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド5: Gemini活用の3ステップ -->
+        <div class="slide">
+            <div class="wave-top"></div>
+            <div class="guide-section">
+                <div class="step-box">
+                    <h3><i class="fas fa-rocket"></i> Gemini Canvasでアプリを作る3ステップ</h3>
+                    <p>このサイトのアプリを参考に、先生ご自身で「自分専用アプリ」を作りたい場合は、以下の手順でGemini（Canvasモード）に話しかけてみてください。</p>
+                    
+                    <ol>
+                        <li><strong>欲しい機能を言う</strong>
+                            <p>「〇〇をするアプリを作って」とシンプルに伝える</p>
+                            <p>例：「生徒の名前をランダムに選ぶアプリを作って」</p>
+                        </li>
+                        
+                        <li><strong>制約をつける</strong>
+                            <p>「インストール不要で、HTML1つで動くようにして」</p>
+                            <p>「サーバーにデータを送信しないで」</p>
+                        </li>
+                        
+                        <li><strong>調整する</strong>
+                            <p>「もっとボタンを大きくして」</p>
+                            <p>「印刷できるようにして」</p>
+                            <p>「スマホでも使えるようにして」</p>
+                        </li>
+                    </ol>
+                    
+                    <p style="margin-top: 30px;">この3ステップだけで、驚くほど実用的なツールが生まれます。<br>
+                    ぜひ、このサイトのアプリを触りながら、次のアイデアを膨らませてみてください。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド6: プロンプトのコツ -->
+        <div class="slide">
+            <div class="wave-top"></div>
+            <div class="guide-section">
+                <div class="tips-box">
+                    <h4><i class="fas fa-lightbulb"></i> プロンプトのコツ</h4>
+                    <ul>
+                        <li><strong>具体的に:</strong> 「ボタンを大きく」ではなく「ボタンの高さを60pxに」と数値で指定</li>
+                        <li><strong>段階的に:</strong> 一度にすべてを頼まず、基本機能→追加機能と段階的に</li>
+                        <li><strong>例を示す:</strong> 「このサイトの〇〇みたいな感じで」と参考URLを示す</li>
+                        <li><strong>制約を明確に:</strong> 「必ずHTML1ファイルで」「必ずローカル処理で」と念押し</li>
+                        <li><strong>エラー対応:</strong> うまく動かない場合は「このエラーを直して」とエラーメッセージをそのまま貼る</li>
+                    </ul>
+                </div>
+
+                <div class="prompt-box">
+                    <h4><i class="fas fa-magic"></i> 良い例 vs 悪い例</h4>
+                    <pre>❌ 悪い例:
+「タイマーを作って」
+
+✅ 良い例:
+「残り時間を円グラフで表示するタイマーを作ってください。
+5分/10分/15分のプリセットボタンを設置し、
+残り1分で色を黄色に、0秒で赤に変化させてください。
+終了時にアラーム音を鳴らし、音量調整スライダーも実装してください。
+HTML1ファイルで完結するようにお願いします。」</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド7: まとめ -->
+        <div class="slide">
+            <div class="wave-top"></div>
+            <div class="guide-section">
+                <h2><i class="fas fa-graduation-cap"></i> まとめ</h2>
+                <p>このガイドで紹介した30個のアプリは、すべて<span class="highlight">Gemini Canvasへの適切な指示</span>だけで作成できます。</p>
+                <p>プログラミングの知識がなくても、「何を作りたいか」「どう使いたいか」を明確に伝えることで、実用的なツールが完成します。</p>
+                
+                <div class="prompt-box">
+                    <h4><i class="fas fa-star"></i> 重要なポイント</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li>✅ HTML1ファイルで完結（インストール不要）</li>
+                        <li>✅ 完全ローカル処理（個人情報保護）</li>
+                        <li>✅ 段階的な調整（完璧を最初から求めない）</li>
+                        <li>✅ 具体的な指示（数値や条件を明確に）</li>
+                        <li>✅ 参考例を示す（「〇〇みたいな感じで」）</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 40px; font-size: 1.2rem; text-align: center;">
+                    <strong>あなたの「こんなツールがあったら便利なのに」というアイデアが、<br>
+                    次の画期的な教育アプリになるかもしれません！</strong>
+                </p>
+
+                <div style="text-align: center; margin: 60px 0;">
+                    <a href="index.html" class="back-button">
+                        <i class="fas fa-arrow-left"></i> アプリ一覧に戻る
+                    </a>
+                    <a href="app-creation-guide.html" class="back-button" style="margin-left: 20px;">
+                        <i class="fas fa-file-alt"></i> 通常版ガイドを見る
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ナビゲーションボタン -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" disabled>
+            <i class="fas fa-chevron-left"></i> 前へ
+        </button>
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">7</span>
+        </div>
+        <button class="nav-btn" id="nextBtn">
+            次へ <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentSlideSpan = document.getElementById('currentSlide');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+
+        // 総スライド数を表示
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(n) {
+            // 範囲チェック
+            if (n < 0) n = 0;
+            if (n >= totalSlides) n = totalSlides - 1;
+
+            // すべてのスライドを非表示
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // 現在のスライドを表示
+            slides[n].classList.add('active');
+            currentSlide = n;
+
+            // スライド番号を更新
+            currentSlideSpan.textContent = n + 1;
+
+            // ボタンの状態を更新
+            prevBtn.disabled = (n === 0);
+            nextBtn.disabled = (n === totalSlides - 1);
+
+            // スライドの先頭にスクロール
+            slides[n].scrollTop = 0;
+        }
+
+        // 次へボタン
+        nextBtn.addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+
+        // 前へボタン
+        prevBtn.addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+
+        // キーボード操作
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Right') {
+                if (currentSlide < totalSlides - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            } else if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            } else if (e.key === 'Home') {
+                showSlide(0);
+            } else if (e.key === 'End') {
+                showSlide(totalSlides - 1);
+            }
+        });
+
+        // スワイプ操作（タッチデバイス用）
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // 左スワイプ（次へ）
+                if (currentSlide < totalSlides - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // 右スワイプ（前へ）
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            }
+        }
+
+        // 初期表示
+        showSlide(0);
+    </script>
+</body>
+</html>

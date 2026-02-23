@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アプリ作成ガイド（フルスライド版）| Gemini Canvasで教育アプリを作ろう</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        /* ナビゲーションボタン */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        /* 目次ボタン */
+        .toc-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+        }
+
+        /* キーボードヒント */
+        .keyboard-hint {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            color: #666;
+            z-index: 1000;
+        }
+
+        .keyboard-hint i {
+            color: #667eea;
+            margin: 0 5px;
+        }
+
+        /* 既存のスタイルをそのまま適用 */
+        .guide-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .guide-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .guide-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .guide-section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px 100px 20px;
+        }
+        
+        .guide-section h2 {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--color-primary);
+        }
+        
+        .guide-section h3 {
+            font-size: 1.5rem;
+            color: var(--color-secondary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .guide-section h4 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .prompt-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .prompt-box h4 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .prompt-box pre {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 10px 0;
+        }
+        
+        .tips-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .tips-box h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .tips-box ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .category-card h3 {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+        
+        .app-item {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .app-item h4 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        .step-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .step-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .step-box ol {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 60%, #ffeb3b 60%);
+            padding: 2px 4px;
+            font-weight: 600;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 40px 0;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .nav-buttons {
+                bottom: 15px;
+                padding: 10px 15px;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .keyboard-hint {
+                display: none;
+            }
+
+            .toc-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .guide-section {
+                padding: 20px 15px 100px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="toc-button" id="tocBtn">
+        <i class="fas fa-list"></i> 目次
+    </button>
+
+    <div class="keyboard-hint">
+        <i class="fas fa-arrow-left"></i> 前へ　<i class="fas fa-arrow-right"></i> 次へ　<i class="fas fa-keyboard"></i> キーボード操作可能
+    </div>
+
+    <div class="slide-container" id="slideContainer">
+        <!-- このコンテンツはJavaScriptで動的に生成されます -->
+    </div>
+
+    <!-- ナビゲーションボタン -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" disabled>
+            <i class="fas fa-chevron-left"></i> 前へ
+        </button>
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">0</span>
+        </div>
+        <button class="nav-btn" id="nextBtn">
+            次へ <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        // スライドデータ定義
+        const slidesData = [
+            // スライド1: タイトル
+            {
+                type: 'hero',
+                title: 'アプリ作成ガイド',
+                subtitle: 'Gemini Canvasで教育現場向けWebアプリを作ろう！<br>プログラミング知識不要、AIへの正しい指示でここまで作れる<br><br>全30個のアプリの作成方法を完全解説',
+                note: '<i class="fas fa-arrow-right"></i> 右矢印キーまたは「次へ」ボタンでスタート'
+            },
+            
+            // スライド2: 目次
+            {
+                type: 'toc',
+                title: '目次',
+                categories: [
+                    { name: '1. はじめに', slide: 2 },
+                    { name: '2. 全アプリ共通の基本設定', slide: 3 },
+                    { name: '3. カテゴリ1: 画像・映像・AI処理（4アプリ）', slide: 4 },
+                    { name: '4. カテゴリ2: ファイル処理・変換（4アプリ）', slide: 8 },
+                    { name: '5. カテゴリ3: 学級経営・事務（6アプリ）', slide: 12 },
+                    { name: '6. カテゴリ4: テスト・プリント作成（3アプリ）', slide: 18 },
+                    { name: '7. カテゴリ5: 授業支援・演出（10アプリ）', slide: 21 },
+                    { name: '8. Gemini活用の3ステップ', slide: 31 },
+                    { name: '9. プロンプトのコツ', slide: 32 },
+                    { name: '10. まとめ', slide: 33 }
+                ]
+            },
+            
+            // スライド3: はじめに
+            {
+                type: 'intro',
+                title: 'はじめに',
+                content: 'このページでは、本サイトで紹介している全30個のアプリを<span class="highlight">どのようにGemini Canvasで作成したか</span>を詳しく解説します。',
+                subContent: '先生やICT支援員の方が「自分も作ってみたい」「仕組みを知りたい」と思った時に、すぐに実践できる内容になっています。',
+                tips: [
+                    '各アプリを作成するための<strong>具体的なプロンプト（指示文）</strong>',
+                    '作成・カスタマイズする際の<strong>重要なポイント</strong>',
+                    '学校現場で使いやすくするための<strong>工夫</strong>',
+                    'Gemini Canvasへの<strong>効果的な指示の出し方</strong>'
+                ]
+            },
+            
+            // スライド4: 全アプリ共通の基本設定
+            {
+                type: 'basic',
+                title: '全アプリ共通の基本設定',
+                content: 'Gemini Canvasで作成する際、<strong>すべてのアプリで共通して以下の条件</strong>を最初に入力しています。',
+                subContent: 'これにより、学校現場で最も重要な「<span class="highlight">セキュリティ</span>」と「<span class="highlight">使いやすさ</span>」を担保しています。',
+                prompt: `以下の要件を満たすWebアプリを作成してください。
+
+1. **技術:** HTML5, Tailwind CSS, JavaScript (React/Vue等のCDN版を使用可)
+2. **構造:** 単一のHTMLファイル（シングルファイル）で完結させること
+3. **セキュリティ:** サーバーへのデータ送信は一切行わない。
+   全ての処理をブラウザ上のJavaScriptで完結させる（ローカル処理）
+4. **デザイン:** 学校の先生が使いやすい、清潔でモダンなUI`,
+                tips: [
+                    '<strong>単一HTMLファイル:</strong> インストール不要、ファイルを開くだけで使える',
+                    '<strong>ローカル処理:</strong> 児童生徒の個人情報が外部に送信されない',
+                    '<strong>Tailwind CSS:</strong> モダンなデザインを簡単に実装できる',
+                    '<strong>CDN使用:</strong> 外部ライブラリも1ファイルで完結'
+                ]
+            },
+            
+            // カテゴリ1: 画像・映像・AI処理（4アプリ）
+            {
+                type: 'category',
+                category: 'カテゴリ1: 画像・映像・AI処理',
+                icon: 'fa-camera',
+                description: '児童の顔が映るデータを<strong>クラウドに上げずに処理</strong>できるツール群です。',
+                apps: ['① 全自動・顔モザイクメーカー', '② クイック席替えメーカー', '③ 教室用ビジュアルタイマー', '④ FormMirror']
+            },
+            
+            // ① 全自動・顔モザイクメーカー
+            {
+                type: 'app',
+                number: '①',
+                title: '全自動・顔モザイクメーカー',
+                function: '動画・写真から顔を自動検出し、モザイクやぼかしを入れる',
+                prompt: `face-api.jsを使用して、Webカメラまたはアップロードされた動画ファイルから
+リアルタイムで顔を検出し、その部分にモザイク処理またはぼかし処理をかける
+アプリを作成してください。
+
+処理は全てクライアントサイドで行い、サーバーへのアップロードは一切しないこと。
+処理済みの動画・画像をダウンロードできるようにしてください。`,
+                tips: [
+                    '<strong>face-api.jsの読み込み:</strong> 初回は1〜2秒かかるため「モデル読み込み中…」と表示',
+                    '<strong>動画処理:</strong> 長い動画は重いため「30秒以内推奨」と注意書きを',
+                    '<strong>手動補正:</strong> AIが顔を見逃した時のために手動モザイク機能も実装するよう指示'
+                ],
+                advice: '【個人情報保護の切り札】学校行事の写真・動画を保護者に配布する前に顔を隠すツール。完全ローカル処理なので情報漏洩の心配なし。'
+            },
+            
+            // ② クイック席替えメーカー
+            {
+                type: 'app',
+                number: '②',
+                title: 'クイック席替えメーカー',
+                function: '名簿から自動で座席配置を生成し、印刷可能な座席表を作成',
+                prompt: `生徒名簿（Excelからコピペ可能）を入力すると、
+ランダムに席順を決めて座席表を生成するアプリを作成してください。
+
+・教室レイアウトは4×8、5×7など複数パターンから選択可能
+・前後左右の交換機能、固定席の設定機能
+・印刷時にA4用紙に最適化されたレイアウト
+・座席表のPNG画像としての保存機能`,
+                tips: [
+                    '<strong>Excelコピペ対応:</strong> 名簿データを改行区切りで入力できるように',
+                    '<strong>視力・身長考慮:</strong> 前列固定などの条件を設定できる機能',
+                    '<strong>印刷最適化:</strong> @media printでA4サイズに最適化'
+                ],
+                advice: '【時短の王様】従来30分かかっていた席替えが30秒で完了。公平性も保証され、児童も納得。'
+            },
+            
+            // ③ 教室用ビジュアルタイマー
+            {
+                type: 'app',
+                number: '③',
+                title: '教室用ビジュアルタイマー',
+                function: '残り時間を視覚的に表示するタイマー',
+                prompt: `残り時間を円グラフまたはバーで視覚的に減らしていくタイマーを作成してください。
+
+残り1分で色が黄色に、0分で赤に変化。
+終了時にアラーム音を鳴らす（音量調整可能）。
+複数タイマーの同時管理機能、全画面表示モード対応。
+
+プリセットタイマー（5分/10分/15分）も用意。
+ブラウザのFullscreen APIを使用してフルスクリーン表示を実装してください。`,
+                tips: [
+                    '<strong>全画面:</strong> 授業での提示用に「フルスクリーン表示ボタン」を実装',
+                    '<strong>音の再生:</strong> ブラウザの仕様上、ユーザーが一度画面をクリックしないと音が鳴らないため、「開始ボタン」を必ず設置',
+                    '<strong>カスタマイズ:</strong> 色やアニメーションを好みに変更できるように'
+                ],
+                advice: '【時間管理の味方】「あと何分？」の質問が激減。子どもたちが自発的に時間を意識するように。'
+            },
+            
+            // ④ FormMirror
+            {
+                type: 'app',
+                number: '④',
+                title: 'FormMirror',
+                function: '動作分析・フォームチェックアプリ',
+                prompt: `Webカメラの映像をリアルタイムでミラー表示し、
+お手本動画と比較しながら動きをチェックできるアプリを作成してください。
+
+・画面を左右分割し、左にお手本動画、右にWebカメラ映像
+・両方の映像を同期再生できる機能
+・スロー再生機能（0.25倍速〜2倍速）
+・録画機能（MediaRecorder API使用）`,
+                tips: [
+                    '<strong>AI骨格検出:</strong> TensorFlow.js の PoseNet を使用すると、骨格を可視化できる',
+                    '<strong>遅延問題:</strong> Webカメラ映像はリアルタイム表示のため、ミラー表示にはわずかな遅延がある',
+                    '<strong>プライバシー:</strong> カメラへのアクセス許可が必要なため、権限要求の説明を丁寧に'
+                ],
+                advice: '【体育授業の革命】跳び箱、マット運動のフォームを自分で確認。先生の負担も減り、子どもの自主性も育つ。'
+            },
+            
+            // カテゴリ2: ファイル処理・変換（4アプリ）
+            {
+                type: 'category',
+                category: 'カテゴリ2: ファイル処理・変換',
+                icon: 'fa-file-alt',
+                description: '教材作成に必要なファイル変換を<strong>ローカルで安全に処理</strong>するツール群です。',
+                apps: ['⑤ 万能PNGコンバーター', '⑥ QR Generator', '⑦ PDFちょこっと整理', '⑧ 提出物リネーム屋さん']
+            },
+            
+            // ⑤ 万能PNGコンバーター
+            {
+                type: 'app',
+                number: '⑤',
+                title: '万能PNGコンバーター',
+                function: 'PDF、Office、画像をPNG変換',
+                prompt: `PDF、Word、Excel、PowerPoint、画像ファイルを
+PNG画像に変換するアプリを作成してください。
+
+・PDF.jsを使用してPDFを画像化
+・Office系ファイルはHTML変換→Canvas描画→PNG化
+・複数ページある場合は全ページを変換
+・画質設定（72dpi/150dpi/300dpi）
+・完全クライアント処理で機密保持`,
+                tips: [
+                    '<strong>PDF.js:</strong> CDN版を使用すれば簡単にPDF読み込み可能',
+                    '<strong>Office変換:</strong> 完全な変換は難しいため、「レイアウトが崩れる場合あり」と注記',
+                    '<strong>ファイルサイズ:</strong> 大きなファイルはメモリを消費するため、「10MB以内推奨」と表示'
+                ],
+                advice: '【教材作成の強い味方】PDFプリントをPNG化してKeynote/PowerPointに貼り付け。オンライン授業資料の作成が劇的に効率化。'
+            },
+            
+            // ⑥ QR Generator
+            {
+                type: 'app',
+                number: '⑥',
+                title: 'QR Generator',
+                function: '教材用QRコード一括生成',
+                prompt: `URL、テキスト、Wi-Fiパスワードなどを入力して
+QRコードを生成するアプリを作成してください。
+
+・qrcode.js ライブラリを使用
+・複数のURLを一度に入力（改行区切り）して一括生成
+・QRコードの色、サイズをカスタマイズ可能
+・生成したQRコードをA4用紙に並べて印刷できるレイアウト`,
+                tips: [
+                    '<strong>一括生成:</strong> 30個のURLを一度に入力して、A4用紙に6×5レイアウトで配置',
+                    '<strong>ラベル機能:</strong> QRコードの下に「〇〇のURL」といったラベルを自動表示',
+                    '<strong>印刷最適化:</strong> ページブレークを考慮して印刷レイアウトを調整'
+                ],
+                advice: '【GIGAスクールの必需品】学習サイトへのアクセスを簡単に。プリントにQRコードを印刷して配布するだけ。'
+            },
+            
+            // ⑦ PDFちょこっと整理
+            {
+                type: 'app',
+                number: '⑦',
+                title: 'PDFちょこっと整理',
+                function: 'ブラウザで動作する簡易PDF編集ツール',
+                prompt: `PDFファイルの結合・分割・削除・並び替えを
+ドラッグ&ドロップで操作できるアプリを作成してください。
+
+・pdf-lib ライブラリを使用
+・複数PDFをドラッグ&ドロップで結合
+・ページのサムネイル表示
+・不要ページの削除、ページ順の入れ替え
+・完全オフラインで機密データも安心`,
+                tips: [
+                    '<strong>サムネイル:</strong> PDF.jsでページのプレビュー画像を生成',
+                    '<strong>ドラッグ&ドロップ:</strong> SortableJS等を使用すると簡単に実装',
+                    '<strong>ファイルサイズ:</strong> 大きなPDFは処理に時間がかかるため、進捗バーを表示'
+                ],
+                advice: '【テスト問題作成の時短】複数のPDFプリントから必要なページだけを抜き出して1つに結合。従来15分→3分に短縮。'
+            },
+            
+            // ⑧ 提出物リネーム屋さん
+            {
+                type: 'app',
+                number: '⑧',
+                title: '提出物リネーム屋さん',
+                function: 'バラバラなファイル名を一括整理',
+                prompt: `Google Classroomなどで回収したファイルを
+名簿リストやルールに基づいて一括リネームするアプリを作成してください。
+
+・ファイルをドラッグ&ドロップで一括読み込み
+・名簿リスト（Excel/CSV）をアップロード
+・リネームルール設定（連番、日付、クラス名など）
+・リネーム後のファイルをZIPでダウンロード
+・完全ローカル処理で個人情報も安心`,
+                tips: [
+                    '<strong>ファイル処理:</strong> JSZip ライブラリでZIP圧縮',
+                    '<strong>プレビュー機能:</strong> リネーム前後のファイル名を一覧表示',
+                    '<strong>ルールテンプレート:</strong> よくあるパターン（出席番号_名前_提出日.pdf）を保存'
+                ],
+                advice: '【事務作業の救世主】40人分の提出物整理が30秒で完了。「田中太郎_作文.pdf」のような統一ファイル名で保存も簡単。'
+            },
+            
+            // カテゴリ3: 学級経営・事務（6アプリ）
+            {
+                type: 'category',
+                category: 'カテゴリ3: 学級経営・事務',
+                icon: 'fa-users',
+                description: '日々の学級運営を<strong>デジタル化して効率化</strong>するツール群です。',
+                apps: ['⑨ クラスメモボード', '⑩ ランダムセレクター', '⑪ 名札メーカー Pro', '⑫ 時間割メーカー', '⑬ デジタル出席簿', '⑭ スマートグループ分け']
+            },
+            
+            // ⑨ クラスメモボード
+            {
+                type: 'app',
+                number: '⑨',
+                title: 'クラスメモボード',
+                function: 'クラス情報を一箇所に集約',
+                prompt: `クラスの予定、連絡事項、当番表、持ち物リストなどを
+1つの画面で管理できるダッシュボードアプリを作成してください。
+
+・カレンダー機能（予定の追加・編集）
+・ToDoリスト（チェックボックス付き）
+・当番表（給食、掃除など）
+・持ち物リスト
+・全てlocalStorageに保存`,
+                tips: [
+                    '<strong>レイアウト:</strong> グリッドレイアウトで各機能をカード形式で配置',
+                    '<strong>データ管理:</strong> JSON形式でlocalStorageに保存',
+                    '<strong>印刷機能:</strong> 週間予定表だけを印刷できる機能'
+                ],
+                advice: '【デジタル連絡帳】黒板の端に書いていた「今日の予定」「明日の持ち物」をデジタル化。保護者共有も簡単。'
+            },
+            
+            // ⑩ ランダムセレクター
+            {
+                type: 'app',
+                number: '⑩',
+                title: 'ランダムセレクター',
+                function: 'ルーレットモードで抽選、グループ分けモード',
+                prompt: `生徒名リストからランダムに1人を選ぶルーレットを作成してください。
+
+ドラムロールのような演出アニメーションと効果音を入れて。
+当選時に紙吹雪（confetti）を散らすアニメーションを実装。
+
+ルーレットモードとグループ分けモード（2〜8チーム自動編成）を切り替え可能。
+一度選ばれた人を除外するオプションも追加してください。`,
+                tips: [
+                    '<strong>盛り上げ:</strong> 演出が大事。紙吹雪や効果音で子供たちが喜ぶ',
+                    '<strong>スピード調整:</strong> ルーレットの回転速度を調整できると良い',
+                    '<strong>履歴:</strong> 過去に誰が選ばれたか履歴を表示'
+                ],
+                advice: '【公平性の保証】「先生、また俺？」問題を解決。ランダム抽選で全員が納得。クラスが盛り上がる演出も◎。'
+            },
+            
+            // ⑪ 名札メーカー Pro
+            {
+                type: 'app',
+                number: '⑪',
+                title: '名札メーカー Pro',
+                function: '首かけ名札と三角席札を簡単作成',
+                prompt: `児童生徒の名札を作成・印刷できるアプリを作成してください。
+
+・名簿データ（CSV/Excel）を一括読み込み
+・首かけ名札と三角席札の2つのテンプレート
+・ふりがな、学年、組、番号を自動配置
+・A4用紙に8枚並べて印刷可能
+・イラストや枠線のカスタマイズ機能`,
+                tips: [
+                    '<strong>CSV読み込み:</strong> Papa Parse ライブラリで簡単に実装',
+                    '<strong>印刷最適化:</strong> A4用紙に8枚（2×4）配置し、切り取り線を表示',
+                    '<strong>テンプレート:</strong> 3〜4種類のデザインパターンを用意'
+                ],
+                advice: '【新学期の時短】40人分の名札作りが10分で完了。デザインも統一されてプロ仕様。'
+            },
+            
+            // ⑫ 時間割メーカー
+            {
+                type: 'app',
+                number: '⑫',
+                title: '時間割メーカー',
+                function: '週間時間割を簡単作成',
+                prompt: `週間時間割を作成・印刷できるアプリを作成してください。
+
+・月〜金の5日間、1〜6時限の時間割表
+・科目名を選択式で入力（国語、算数、体育など）
+・4つのデザインテーマ（シンプル、カラフル、モノクロ、イラスト入り）
+・児童用と保護者用の2つのモード
+・A4印刷最適化`,
+                tips: [
+                    '<strong>科目マスター:</strong> よく使う科目名をあらかじめリスト化',
+                    '<strong>色分け:</strong> 科目ごとに自動で色分けする機能',
+                    '<strong>保護者用:</strong> 持ち物欄を追加した保護者向けレイアウト'
+                ],
+                advice: '【保護者への配布資料】見やすくカラフルな時間割表を簡単作成。保護者からの評判も◎。'
+            },
+            
+            // ⑬ デジタル出席簿
+            {
+                type: 'app',
+                number: '⑬',
+                title: 'デジタル出席簿',
+                function: '月間カレンダー型出席管理',
+                prompt: `月間カレンダー形式の出席簿を作成してください。
+
+・クリックで出席○・遅刻△・欠席×・早退▲を入力
+・生徒ごとの出席日数・欠席日数を自動集計
+・月次レポート（PDF/CSV出力）
+・データはlocalStorageに保存
+・印刷時に月間出席簿として最適化`,
+                tips: [
+                    '<strong>カレンダーUI:</strong> FullCalendar.js などのライブラリを使用',
+                    '<strong>統計:</strong> 出席率、欠席回数を自動計算してグラフ表示',
+                    '<strong>バックアップ:</strong> JSON形式でエクスポート機能'
+                ],
+                advice: '【紙の出席簿から解放】クリック1つで出席管理。月末の集計も自動で先生の負担激減。'
+            },
+            
+            // ⑭ スマートグループ分け
+            {
+                type: 'app',
+                number: '⑭',
+                title: 'スマートグループ分け',
+                function: '最適なチーム分けを自動生成',
+                prompt: `生徒名簿から最適なグループ分けを自動生成するアプリを作成してください。
+
+・2〜8チームに自動分割
+・男女比を均等にする機能
+・リーダー、副リーダー、書記などの役割を自動割り当て
+・特定の生徒を同じチームにする/しない設定
+・グループ表を印刷可能`,
+                tips: [
+                    '<strong>アルゴリズム:</strong> シンプルなランダム分割でOK。高度な最適化は不要',
+                    '<strong>再生成:</strong> 何度でもやり直せる「もう一度」ボタン',
+                    '<strong>履歴保存:</strong> 過去のグループ分けを保存して次回参考に'
+                ],
+                advice: '【公平なチーム分け】「あの子と一緒がいい」問題を解決。アルゴリズムが決めるので先生も気楽。'
+            },
+            
+            // カテゴリ4: テスト・プリント作成（3アプリ）
+            {
+                type: 'category',
+                category: 'カテゴリ4: テスト・プリント作成',
+                icon: 'fa-file-alt',
+                description: 'テスト問題やプリント作成を<strong>効率化</strong>するツール群です。',
+                apps: ['⑮ 漢字テストメーカー', '⑯ 算数・数学 図形作成ツール', '⑰ ワークシートページ切り出しツール']
+            },
+            
+            // ⑮ 漢字テストメーカー
+            {
+                type: 'app',
+                number: '⑮',
+                title: '漢字テストメーカー',
+                function: '小1〜中3の漢字テストを自動作成',
+                prompt: `小1〜中3の学年別漢字テストを自動生成するアプリを作成してください。
+
+・学年選択（小1〜中3）
+・出題形式: 読み（漢字→ひらがな）/ 書き（ひらがな→漢字）
+・レイアウト: 縦書き / 横書き
+・問題数: 10問 / 20問 / 50問
+・自由入力モードで独自問題作成可能
+・問題入替・内容編集機能
+・模範解答自動生成
+・A4印刷最適化`,
+                tips: [
+                    '<strong>漢字データ:</strong> 学年別配当漢字をJSON形式で保存',
+                    '<strong>ランダム出題:</strong> 同じ学年でも毎回違う問題',
+                    '<strong>難易度調整:</strong> よく使う漢字を優先的に出題'
+                ],
+                advice: '【週1回のテスト作成が5分に】従来30分かかっていたテスト作成が5分で完了。時短約83%。'
+            },
+            
+            // ⑯ 算数・数学 図形作成ツール
+            {
+                type: 'app',
+                number: '⑯',
+                title: '算数・数学 図形作成ツール',
+                function: 'テスト・プリント用の正確な図形を作成',
+                prompt: `テスト問題やプリント用の図形を正確に作成できるアプリを作成してください。
+
+・三角形（3辺指定 / SAS指定）
+・四角形、円、角度、座標指定
+・辺の長さ・角度を数値入力で自動描画
+・ラベル表示（頂点名 / 辺の長さ）
+・方眼紙モード、ドラッグ移動可能
+・背景透過PNG保存でWord/PowerPointに貼付`,
+                tips: [
+                    '<strong>Canvas API:</strong> HTML5 Canvasで図形を描画',
+                    '<strong>数値精度:</strong> 辺の長さや角度を正確に計算',
+                    '<strong>エクスポート:</strong> 透過PNG形式で保存'
+                ],
+                advice: '【図形問題作成の強い味方】定規とコンパスで30分かけて描いていた図形が1分で完成。正確で美しい。'
+            },
+            
+            // ⑰ ワークシートページ切り出しツール
+            {
+                type: 'app',
+                number: '⑰',
+                title: 'ワークシートページ切り出しツール',
+                function: '教科書PDFから必要ページ切り出し',
+                prompt: `教科書・資料集PDFから必要なページを切り出し、
+1枚のA4に自由レイアウトするアプリを作成してください。
+
+・PDFアップロード機能
+・ページサムネイル表示
+・1/2/4分割対応
+・ドラッグ&ドロップで配置
+・PDF.js・jsPDF使用
+・完全ローカル処理`,
+                tips: [
+                    '<strong>レイアウト:</strong> 1ページ全画面、2ページ上下、4ページ2×2',
+                    '<strong>トリミング:</strong> ページの一部だけを切り出す機能',
+                    '<strong>注釈:</strong> 切り出したページに矢印や文字を追加'
+                ],
+                advice: '【プリント作成の革命】複数の教材から必要な部分だけを集めて1枚のプリントに。著作権の範囲内で効率的。'
+            },
+            
+            // カテゴリ5: 授業支援・演出（10アプリ）
+            {
+                type: 'category',
+                category: 'カテゴリ5: 授業支援・演出',
+                icon: 'fa-chalkboard-teacher',
+                description: '教室の空気をコントロールし、<strong>授業を盛り上げる</strong>ツール群です。',
+                apps: [
+                    '⑱ 集中スポットライト', '⑲ 声の大きさ信号機', '⑳ 手書き風文字ジェネレーター', 
+                    '㉑ 板書計画シミュレーター', '㉒ 動画＆カメラ お絵かきツール', '㉓ 効果音ポン出しサンプラー',
+                    '㉔ 万能デジタル得点板', '㉕ 原稿用紙エディタ', '㉖ 言い間違い訂正アプリ', '㉗ おしゃべりノート', '㉘ そららメモ'
+                ]
+            },
+            
+            // ⑱ 集中スポットライト
+            {
+                type: 'app',
+                number: '⑱',
+                title: '集中スポットライト',
+                function: '画面の特定部分だけを照らして注目させる',
+                prompt: `画面全体を暗くし、マウスカーソル（またはタッチ位置）の周りだけ明るく表示する
+「スポットライト」機能を作成してください。
+
+スポットライトの形状は円・四角・スリットから選択可能。
+透過率（暗さの度合い）を調整できるスライダーを実装。
+背景画像を読み込んで、その上にスポットライトを当てることも可能に。
+タッチ操作対応で、タブレットでも使いやすくしてください。`,
+                tips: [
+                    '<strong>デジタル教科書:</strong> プロジェクターでデジタル教科書を投影する際に便利',
+                    '<strong>サイズ調整:</strong> スポットライトのサイズを調整できるように',
+                    '<strong>固定モード:</strong> 特定位置にスポットライトを固定できる機能も有用'
+                ],
+                advice: '【注目を集める魔法】プロジェクター投影時に特定部分だけを照らす。子どもの視線が一点に集中。'
+            },
+            
+            // ⑲ 声の大きさ信号機
+            {
+                type: 'app',
+                number: '⑲',
+                title: '声の大きさ信号機',
+                function: '教室の環境音を可視化して騒音レベルを信号機表示',
+                prompt: `マイクから教室の音量を取得し、騒音レベルを信号機で表示するアプリを作成してください。
+
+Web Audio APIを使用してリアルタイム音量測定。
+3つのプリセットモード（自習・授業・グループ活動）で閾値を自動設定。
+青（静か）・黄（少し大きい）・赤（うるさい）の3段階表示。
+音量グラフで時間経過を可視化。`,
+                tips: [
+                    '<strong>閾値調整:</strong> 教室の環境に合わせて閾値を調整できる機能',
+                    '<strong>録音禁止:</strong> 音量だけを測定し、音声は録音しない',
+                    '<strong>警告音:</strong> 赤信号が一定時間続いたら軽い警告音'
+                ],
+                advice: '【自発的な声の調整】先生が「静かに！」と言わなくても、子どもたちが自分で声の大きさを調整。'
+            },
+            
+            // ⑳ 手書き風文字ジェネレーター
+            {
+                type: 'app',
+                number: '⑳',
+                title: '手書き風文字ジェネレーター',
+                function: 'テキスト入力で背景透過PNG画像生成',
+                prompt: `テキストを入力すると手書き風フォントで画像化するアプリを作成してください。
+
+5種類の手書き風フォント搭載（ペン字・教科書体・かわいい・丸文字・筆文字）。
+背景透過PNG画像として出力。
+文字色、サイズ、行間を調整可能。
+Canvas APIを使用して画像生成。`,
+                tips: [
+                    '<strong>Google Fonts:</strong> Noto Sans JP、Kiwi Maru などの手書き風フォント',
+                    '<strong>複数行対応:</strong> 改行を認識して複数行表示',
+                    '<strong>影・縁取り:</strong> 文字に影や縁取りを追加する機能'
+                ],
+                advice: '【掲示物作成の時短】手書きで書いていた掲示物のタイトルが1分で完成。統一感のある美しい掲示板に。'
+            },
+            
+            // ㉑ 板書計画シミュレーター
+            {
+                type: 'app',
+                number: '㉑',
+                title: '板書計画シミュレーター',
+                function: '授業前の板書計画をデジタル作成',
+                prompt: `黒板のレイアウトをシミュレーションできるアプリを作成してください。
+
+黒板/ホワイトボード切替、手書きペン、テキスト・図形配置。
+スナップショット機能で複数案を比較。
+Fabric.jsを使用してCanvasベースで実装。
+作成した板書計画を画像保存。`,
+                tips: [
+                    '<strong>テンプレート:</strong> よくある板書パターンをテンプレート化',
+                    '<strong>グリッド:</strong> 黒板を3×3に分割するガイドライン',
+                    '<strong>タイムライン:</strong> 授業の進行に合わせて板書を追加していく機能'
+                ],
+                advice: '【授業準備の可視化】板書計画を事前にシミュレーション。授業中の迷いがなくなり、スムーズな進行が可能。'
+            },
+            
+            // ㉒ 動画＆カメラ お絵かきツール
+            {
+                type: 'app',
+                number: '㉒',
+                title: '動画＆カメラ お絵かきツール',
+                function: '動画・画像・Webカメラ映像に手書き注釈',
+                prompt: `動画・画像・Webカメラ映像に手書き注釈を追加できるアプリを作成してください。
+
+ペン色・太さ変更、消しゴム機能。
+画像保存（PNG）、操作録画機能（WebM/MP4）。
+体育授業・理科実験に最適。
+Canvas APIとMediaRecorder APIを使用。`,
+                tips: [
+                    '<strong>フレーム処理:</strong> 動画の各フレームに注釈を追加',
+                    '<strong>タッチ対応:</strong> タブレットでのペン入力に最適化',
+                    '<strong>録画:</strong> 注釈を入れながらの解説動画を録画'
+                ],
+                advice: '【体育授業のフィードバック】跳び箱の動画に「ここで手をつく」と注釈。視覚的なフィードバックで理解度UP。'
+            },
+            
+            // ㉓ 効果音ポン出しサンプラー
+            {
+                type: 'app',
+                number: '㉓',
+                title: '効果音ポン出しサンプラー',
+                function: '16パッドのサウンドボード',
+                prompt: `16個のパッドに音声ファイル（MP3/WAV等）をドラッグ&ドロップで設定でき、
+クリックまたはキーボードショートカット（1〜4、Q〜Rなど）で再生できる
+サウンドボードを作成してください。
+
+全停止機能（スペースキー）、マスターボリューム調整、
+ループ再生設定、パッドの色分け機能を実装。
+設定はlocalStorageに保存し、次回起動時に復元できるようにしてください。`,
+                tips: [
+                    '<strong>効果音素材:</strong> 著作権フリーの効果音サイトを紹介すると親切',
+                    '<strong>連打対応:</strong> 同じボタンを連続押ししても正常に動作するように',
+                    '<strong>表示名変更:</strong> パッドに表示する名前を編集できるように'
+                ],
+                advice: '【校内放送・クイズ・演劇に最適】効果音をタイミングよく再生。完全オフライン動作で安心。'
+            },
+            
+            // ㉔ 万能デジタル得点板
+            {
+                type: 'app',
+                number: '㉔',
+                title: '万能デジタル得点板',
+                function: '体育授業・球技大会用のスコアボード',
+                prompt: `視認性抜群の巨大デジタルフォントで得点を表示するスコアボードを作成してください。
+
+バスケ用に+1/+2/+3ボタン、バレー・卓球用にセット数カウント機能。
+チーム名編集、タイマー機能（カウントダウン/カウントアップ）、
+コート変更（左右入れ替え）、オールリセット機能を実装。
+
+React + Tailwind CSSで実装し、タブレット横画面で本格的な試合雰囲気を演出。
+Google Fonts（Black Ops One等）で大きく見やすいフォントを使用してください。`,
+                tips: [
+                    '<strong>フォントサイズ:</strong> 体育館の後ろからでも見えるよう、超特大サイズに',
+                    '<strong>色分け:</strong> チームごとに色を変えると分かりやすい',
+                    '<strong>キーボード操作:</strong> タッチ操作だけでなく、キーボードでも得点操作できるように'
+                ],
+                advice: '【球技大会の必需品】タブレット1台で本格的なスコアボード。試合の雰囲気が一気にプロ仕様に。'
+            },
+            
+            // ㉕ 原稿用紙エディタ
+            {
+                type: 'app',
+                number: '㉕',
+                title: '原稿用紙エディタ',
+                function: 'ブラウザで動作する縦書き原稿用紙エディタ',
+                prompt: `縦書き原稿用紙エディタを作成してください。
+
+400字詰・200字詰・100字詰から選択可能。
+枚数設定（自動/1〜10枚固定）、リアルタイムプレビュー。
+PDF保存（A4印刷対応）、テキスト保存機能。
+国語課題・作文指導・読書感想文に最適。
+完全ローカル動作でデータ外部送信なし。`,
+                tips: [
+                    '<strong>縦書きCSS:</strong> writing-mode: vertical-rl で縦書き表示',
+                    '<strong>罫線:</strong> CSSのborder-rightで原稿用紙の罫線を表現',
+                    '<strong>文字数カウント:</strong> リアルタイムで文字数を表示'
+                ],
+                advice: '【国語課題の定番】原稿用紙を印刷する手間が不要。デジタルで書いてPDFで提出。'
+            },
+            
+            // ㉖ 言い間違い訂正アプリ
+            {
+                type: 'app',
+                number: '㉖',
+                title: '言い間違い訂正アプリ',
+                function: '会話中の「言い間違い」をリアルタイム検知・訂正',
+                prompt: `Web Speech APIのSpeechRecognitionを使用して、マイク入力を常時テキスト化するアプリを作ってください。
+
+事前に登録した「間違いキーワード（辞書）」が含まれていたら、即座に正しい言葉を画面に大きく表示し、
+正しい発音（SpeechSynthesis）で読み上げてください。
+
+辞書はユーザーが追加・削除できるようにしてください。
+デフォルト辞書として以下を登録：
+- ふいんき → 雰囲気
+- シュミレーション → シミュレーション
+- コミニュケーション → コミュニケーション
+
+Google Chrome推奨の注意書きを表示してください。`,
+                tips: [
+                    '<strong>ブラウザ依存:</strong> Web Speech APIはGoogle Chromeで最も安定',
+                    '<strong>誤検知:</strong> 完全一致の場合のみ訂正するロジック',
+                    '<strong>マイク権限:</strong> 初回起動時の権限許可が必要'
+                ],
+                advice: '【国語指導・日本語学習に最適】先生が横について訂正し続けなくても、アプリが優しく教えてくれます。'
+            },
+            
+            // ㉗ おしゃべりノート
+            {
+                type: 'app',
+                number: '㉗',
+                title: 'おしゃべりノート',
+                function: '低学年向け音声入力メモ',
+                prompt: `小学校低学年でも使える、UIが極めてシンプルな音声入力メモ帳を作成してください。
+
+ボタンは「はなす」「とめる」「よむ」「ほぞん」「いんさつ」のように全てひらがな表記にしてください。
+フォントは教科書体（Google FontsのKiwi MaruまたはZen Maru Gothic）を使用し、文字が大きく表示されるようにしてください。
+
+Web Speech APIで音声認識を実装し、認識中はマイクアイコンを点滅させるなどの視覚フィードバックを表示。
+読み上げ機能（SpeechSynthesis）、文字数カウンター、印刷機能（A4最適化）も実装してください。
+
+ひらがなモード切替ボタンを設置し、ONにするとUI全体が教科書体フォントになるようにしてください。`,
+                tips: [
+                    '<strong>漢字変換の制御:</strong> シンプルな設計が無難',
+                    '<strong>フィードバック:</strong> マイクアイコンの点滅や波形表示',
+                    '<strong>保存形式:</strong> テキストファイル（.txt）で日付付き自動保存'
+                ],
+                advice: '【合理的配慮】「書き」に困難がある児童にとって、声で作文ができる魔法のツールです。'
+            },
+            
+            // ㉘ そららメモ
+            {
+                type: 'app',
+                number: '㉘',
+                title: 'そららメモ',
+                function: '「かく」「のこす」「けす」だけの超シンプルメモ',
+                prompt: `機能をとにかく削ぎ落とした、世界一シンプルなメモアプリを作成してください。
+
+背景は爽やかな青空のCSSグラデーション（明るい水色から白へ）。
+機能はテキストエリアと「保存（のこす）」「消去（けす）」ボタンのみ。
+
+誤って消さないよう、削除ボタンには「ほんとうにきえるよ？」という確認アラート（confirm）を入れてください。
+ボタンのテキストは全てひらがなで、フォントはGoogle FontsのKiwi MaruまたはZen Maru Gothicを使用。
+
+角丸（border-radius）を大きめにして、配色はパステルカラーで優しい印象に。
+保存ボタンは緑色系、削除ボタンは赤色系にしてください。
+
+localStorageを使って、ブラウザを閉じても内容が残るようにしてください。
+保存時のファイル名は「めも_2026-01-28.txt」のような形式で自動生成。`,
+                tips: [
+                    '<strong>デザインの優しさ:</strong> 角丸大きめ、パステルカラー',
+                    '<strong>データ永続化:</strong> localStorageで内容を保存',
+                    '<strong>誤操作防止:</strong> 確認ダイアログ、空欄保存時の優しいエラー表示'
+                ],
+                advice: '【初めてのデジタル体験】複雑な機能は子どもを混乱させます。超シンプル設計でデジタルツールへの第一歩を。'
+            },
+            
+            // Gemini活用の3ステップ
+            {
+                type: 'steps',
+                title: 'Gemini Canvasでアプリを作る3ステップ',
+                intro: 'このサイトのアプリを参考に、先生ご自身で「自分専用アプリ」を作りたい場合は、以下の手順でGemini（Canvasモード）に話しかけてみてください。',
+                steps: [
+                    {
+                        title: '欲しい機能を言う',
+                        desc: '「〇〇をするアプリを作って」とシンプルに伝える',
+                        example: '例：「生徒の名前をランダムに選ぶアプリを作って」'
+                    },
+                    {
+                        title: '制約をつける',
+                        desc1: '「インストール不要で、HTML1つで動くようにして」',
+                        desc2: '「サーバーにデータを送信しないで」'
+                    },
+                    {
+                        title: '調整する',
+                        examples: [
+                            '「もっとボタンを大きくして」',
+                            '「印刷できるようにして」',
+                            '「スマホでも使えるようにして」'
+                        ]
+                    }
+                ],
+                outro: 'この3ステップだけで、驚くほど実用的なツールが生まれます。<br>ぜひ、このサイトのアプリを触りながら、次のアイデアを膨らませてみてください。'
+            },
+            
+            // プロンプトのコツ
+            {
+                type: 'tips',
+                title: 'プロンプトのコツ',
+                tips: [
+                    '<strong>具体的に:</strong> 「ボタンを大きく」ではなく「ボタンの高さを60pxに」と数値で指定',
+                    '<strong>段階的に:</strong> 一度にすべてを頼まず、基本機能→追加機能と段階的に',
+                    '<strong>例を示す:</strong> 「このサイトの〇〇みたいな感じで」と参考URLを示す',
+                    '<strong>制約を明確に:</strong> 「必ずHTML1ファイルで」「必ずローカル処理で」と念押し',
+                    '<strong>エラー対応:</strong> うまく動かない場合は「このエラーを直して」とエラーメッセージをそのまま貼る'
+                ],
+                example: {
+                    bad: '「タイマーを作って」',
+                    good: `「残り時間を円グラフで表示するタイマーを作ってください。
+5分/10分/15分のプリセットボタンを設置し、
+残り1分で色を黄色に、0秒で赤に変化させてください。
+終了時にアラーム音を鳴らし、音量調整スライダーも実装してください。
+HTML1ファイルで完結するようにお願いします。」`
+                }
+            },
+            
+            // まとめ
+            {
+                type: 'summary',
+                title: 'まとめ',
+                content: 'このガイドで紹介した30個のアプリは、すべて<span class="highlight">Gemini Canvasへの適切な指示</span>だけで作成できます。',
+                subContent: 'プログラミングの知識がなくても、「何を作りたいか」「どう使いたいか」を明確に伝えることで、実用的なツールが完成します。',
+                points: [
+                    'HTML1ファイルで完結（インストール不要）',
+                    '完全ローカル処理（個人情報保護）',
+                    '段階的な調整（完璧を最初から求めない）',
+                    '具体的な指示（数値や条件を明確に）',
+                    '参考例を示す（「〇〇みたいな感じで」）'
+                ],
+                message: 'あなたの「こんなツールがあったら便利なのに」というアイデアが、<br>次の画期的な教育アプリになるかもしれません！'
+            }
+        ];
+
+        // スライド生成関数
+        function generateSlides() {
+            const container = document.getElementById('slideContainer');
+            
+            slidesData.forEach((data, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                if (index === 0) slide.classList.add('active');
+                
+                let content = '';
+                
+                switch(data.type) {
+                    case 'hero':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-hero">
+                                <div class="container">
+                                    <h1><i class="fas fa-book-open"></i> ${data.title}</h1>
+                                    <p>${data.subtitle}</p>
+                                    <p style="margin-top: 40px; font-size: 1.1rem; opacity: 0.8;">
+                                        ${data.note}
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    
+                    case 'toc':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-section">
+                                <h2><i class="fas fa-list"></i> ${data.title}</h2>
+                                <div class="category-card">
+                                    <ul style="font-size: 1.1rem; line-height: 2;">
+                                        ${data.categories.map(cat => `<li><strong>${cat.name}</strong></li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    
+                    case 'intro':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-section">
+                                <a href="index.html" class="back-button">
+                                    <i class="fas fa-arrow-left"></i> アプリ一覧に戻る
+                                </a>
+                                <h2><i class="fas fa-lightbulb"></i> ${data.title}</h2>
+                                <p>${data.content}</p>
+                                <p>${data.subContent}</p>
+                                <div class="tips-box">
+                                    <h4><i class="fas fa-star"></i> このガイドでわかること</h4>
+                                    <ul>
+                                        ${data.tips.map(tip => `<li>${tip}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    
+                    case 'basic':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-section">
+                                <h2><i class="fas fa-magic"></i> ${data.title}</h2>
+                                <p>${data.content}</p>
+                                <p>${data.subContent}</p>
+                                <div class="prompt-box">
+                                    <h4><i class="fas fa-terminal"></i> 基本プロンプト（呪文）</h4>
+                                    <pre>${data.prompt}</pre>
+                                </div>
+                                <div class="tips-box">
+                                    <h4><i class="fas fa-exclamation-circle"></i> なぜこの条件が重要？</h4>
+                                    <ul>
+                                        ${data.tips.map(tip => `<li>${tip}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    
+                    case 'category':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-section">
+                                <div class="category-card">
+                                    <h3><i class="fas ${data.icon}"></i> ${data.category}</h3>
+                                    <p>${data.description}</p>
+                                    <h4>このカテゴリーのアプリ:</h4>
+                                    <ul style="font-size: 1.1rem; line-height: 1.8;">
+                                        ${data.apps.map(app => `<li>${app}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    
+                    case 'app':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-section">
+                                <div class="app-item">
+                                    <h4>${data.number} ${data.title}</h4>
+                                    <p><strong>機能:</strong> ${data.function}</p>
+                                    
+                                    <div class="prompt-box">
+                                        <h4>Gemini Canvasへのプロンプト</h4>
+                                        <pre>${data.prompt}</pre>
+                                    </div>
+
+                                    <div class="tips-box">
+                                        <h4>作成・活用のコツ</h4>
+                                        <ul>
+                                            ${data.tips.map(tip => `<li>${tip}</li>`).join('')}
+                                        </ul>
+                                    </div>
+
+                                    ${data.advice ? `<div class="tips-box" style="background: #d1ecf1; border-left-color: #0c5460;">
+                                        <h4><i class="fas fa-chalkboard-teacher"></i> 先生・支援員へのアドバイス</h4>
+                                        <p>${data.advice}</p>
+                                    </div>` : ''}
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    
+                    case 'steps':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-section">
+                                <div class="step-box">
+                                    <h3><i class="fas fa-rocket"></i> ${data.title}</h3>
+                                    <p>${data.intro}</p>
+                                    
+                                    <ol>
+                                        ${data.steps.map((step, i) => {
+                                            let stepContent = `<li><strong>${step.title}</strong>`;
+                                            if (step.desc) stepContent += `<p>${step.desc}</p>`;
+                                            if (step.example) stepContent += `<p>${step.example}</p>`;
+                                            if (step.desc1) stepContent += `<p>${step.desc1}</p>`;
+                                            if (step.desc2) stepContent += `<p>${step.desc2}</p>`;
+                                            if (step.examples) {
+                                                step.examples.forEach(ex => {
+                                                    stepContent += `<p>${ex}</p>`;
+                                                });
+                                            }
+                                            stepContent += '</li>';
+                                            return stepContent;
+                                        }).join('')}
+                                    </ol>
+                                    
+                                    <p style="margin-top: 30px;">${data.outro}</p>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    
+                    case 'tips':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-section">
+                                <div class="tips-box">
+                                    <h4><i class="fas fa-lightbulb"></i> ${data.title}</h4>
+                                    <ul>
+                                        ${data.tips.map(tip => `<li>${tip}</li>`).join('')}
+                                    </ul>
+                                </div>
+
+                                <div class="prompt-box">
+                                    <h4><i class="fas fa-magic"></i> 良い例 vs 悪い例</h4>
+                                    <pre>❌ 悪い例:
+${data.example.bad}
+
+✅ 良い例:
+${data.example.good}</pre>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    
+                    case 'summary':
+                        content = `
+                            <div class="wave-top"></div>
+                            <div class="guide-section">
+                                <h2><i class="fas fa-graduation-cap"></i> ${data.title}</h2>
+                                <p>${data.content}</p>
+                                <p>${data.subContent}</p>
+                                
+                                <div class="prompt-box">
+                                    <h4><i class="fas fa-star"></i> 重要なポイント</h4>
+                                    <ul style="list-style: none; padding-left: 0;">
+                                        ${data.points.map(point => `<li>✅ ${point}</li>`).join('')}
+                                    </ul>
+                                </div>
+
+                                <p style="margin-top: 40px; font-size: 1.2rem; text-align: center;">
+                                    <strong>${data.message}</strong>
+                                </p>
+
+                                <div style="text-align: center; margin: 60px 0;">
+                                    <a href="index.html" class="back-button">
+                                        <i class="fas fa-arrow-left"></i> アプリ一覧に戻る
+                                    </a>
+                                    <a href="app-creation-guide.html" class="back-button" style="margin-left: 20px;">
+                                        <i class="fas fa-file-alt"></i> 通常版ガイドを見る
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                }
+                
+                slide.innerHTML = content;
+                container.appendChild(slide);
+            });
+        }
+
+        // ページ読み込み時にスライドを生成
+        window.addEventListener('DOMContentLoaded', () => {
+            generateSlides();
+            
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentSlideSpan = document.getElementById('currentSlide');
+            const totalSlidesSpan = document.getElementById('totalSlides');
+            const tocBtn = document.getElementById('tocBtn');
+            
+            let currentSlide = 0;
+
+            // 総スライド数を表示
+            totalSlidesSpan.textContent = totalSlides;
+
+            function showSlide(n) {
+                // 範囲チェック
+                if (n < 0) n = 0;
+                if (n >= totalSlides) n = totalSlides - 1;
+
+                // すべてのスライドを非表示
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+
+                // 現在のスライドを表示
+                slides[n].classList.add('active');
+                currentSlide = n;
+
+                // スライド番号を更新
+                currentSlideSpan.textContent = n + 1;
+
+                // ボタンの状態を更新
+                prevBtn.disabled = (n === 0);
+                nextBtn.disabled = (n === totalSlides - 1);
+
+                // スライドの先頭にスクロール
+                slides[n].scrollTop = 0;
+            }
+
+            // 次へボタン
+            nextBtn.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+            });
+
+            // 前へボタン
+            prevBtn.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+            });
+
+            // 目次ボタン
+            tocBtn.addEventListener('click', () => {
+                showSlide(1); // 目次は2番目のスライド（index=1）
+            });
+
+            // キーボード操作
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'Right') {
+                    if (currentSlide < totalSlides - 1) {
+                        showSlide(currentSlide + 1);
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                    if (currentSlide > 0) {
+                        showSlide(currentSlide - 1);
+                    }
+                } else if (e.key === 'Home') {
+                    showSlide(0);
+                } else if (e.key === 'End') {
+                    showSlide(totalSlides - 1);
+                }
+            });
+
+            // スワイプ操作（タッチデバイス用）
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // 左スワイプ（次へ）
+                    if (currentSlide < totalSlides - 1) {
+                        showSlide(currentSlide + 1);
+                    }
+                }
+                if (touchEndX > touchStartX + swipeThreshold) {
+                    // 右スワイプ（前へ）
+                    if (currentSlide > 0) {
+                        showSlide(currentSlide - 1);
+                    }
+                }
+            }
+
+            // 初期表示
+            showSlide(0);
+        });
+    </script>
+</body>
+</html>
