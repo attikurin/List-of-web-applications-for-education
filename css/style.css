@@ -297,6 +297,7 @@ body {
 .icon-sorara { color: #60a5fa; }
 .icon-pdf { color: #e53e3e; }
 .icon-ai { color: #8b5cf6; }
+.icon-code { color: #3b82f6; }
 
 /* ==========================================
    タグ
@@ -395,6 +396,11 @@ body {
 .tag-transparent { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
 .tag-fast { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 .tag-easy { background: linear-gradient(135deg, #10b981, #34d399); }
+.tag-code { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.tag-realtime { background: linear-gradient(135deg, #ec4899, #f472b6); }
+.tag-preview { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+.tag-education { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.tag-lightweight { background: linear-gradient(135deg, #10b981, #34d399); }
 
 .tag:hover {
     transform: scale(1.05);
