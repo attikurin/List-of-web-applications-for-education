@@ -296,6 +296,7 @@ body {
 .icon-notebook { color: #ed64a6; }
 .icon-sorara { color: #60a5fa; }
 .icon-pdf { color: #e53e3e; }
+.icon-ai { color: #8b5cf6; }
 
 /* ==========================================
    タグ
@@ -390,6 +391,10 @@ body {
 .tag-merge { background: linear-gradient(135deg, #805ad5, #9f7aea); }
 .tag-security { background: linear-gradient(135deg, #319795, #4fd1c5); }
 .tag-professional { background: linear-gradient(135deg, #2d3748, #4a5568); }
+.tag-ai { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.tag-transparent { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+.tag-fast { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.tag-easy { background: linear-gradient(135deg, #10b981, #34d399); }
 
 .tag:hover {
     transform: scale(1.05);
