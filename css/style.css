@@ -298,6 +298,7 @@ body {
 .icon-pdf { color: #e53e3e; }
 .icon-ai { color: #8b5cf6; }
 .icon-code { color: #3b82f6; }
+.icon-drive { color: #0f9d58; }
 
 /* ==========================================
    タグ
@@ -401,6 +402,11 @@ body {
 .tag-preview { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
 .tag-education { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 .tag-lightweight { background: linear-gradient(135deg, #10b981, #34d399); }
+.tag-drive { background: linear-gradient(135deg, #0f9d58, #10b981); }
+.tag-link { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.tag-category { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.tag-local { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.tag-organize { background: linear-gradient(135deg, #ec4899, #f472b6); }
 
 .tag:hover {
     transform: scale(1.05);
